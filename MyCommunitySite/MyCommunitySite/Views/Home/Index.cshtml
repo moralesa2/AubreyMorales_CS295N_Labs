@@ -2,8 +2,12 @@
     ViewData["Title"] = "MyCommunityWebsite";
 }
 
-<div class="text-center">
+<div class="text-left">
     <h1 class="display-4">Welcome</h1>
     <p>This is my community website for CS295N</p>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <hr>
+    <div class="list-group">
+        <a asp-controller="Home" asp-action="Messages">Messages</a>
+        <a asp-controller="Home" asp-action="History">History</a>
+    </div>
 </div>
