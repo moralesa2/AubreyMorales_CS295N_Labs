@@ -1,0 +1,18 @@
+﻿@model Message
+@{
+    ViewData["Title"] = "Send a message";
+}
+<h2>@ViewData["Title"]</h2>
+
+<form method="post">
+    <label for="sender">Sender</label>
+    <input id="sender" name="Sender.Name" /><br />
+
+    <label for="recipient">Recipient</label>
+    <input id="recipient" name="Recipient.Name" /><br />
+
+    <label for="content">Content</label>
+    <input id="content" name="Content" /><br />
+
+    <button type="submit">Submit</button>
+</form>

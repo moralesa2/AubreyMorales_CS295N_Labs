@@ -2,7 +2,7 @@
 
 namespace MyCommunitySite.Controllers
 {
-    public class MyStuffController : Controller
+    public class OtherController : Controller
     {
         public IActionResult Index()
         {

@@ -1,0 +1,24 @@
+﻿@model Message
+@{
+    ViewData["Title"] = "Messages";
+}
+<div class="text-center">
+    <h1>@ViewData["Title"]</h1>
+    <a asp-controller="Messages" asp-action="Message">Write a Message</a>
+</div>
+
+<hr />
+<h4>Posted Messages</h4>
+@if (Model.Content != null)
+{
+    <p>
+        Sender: @Model.Sender.Name <br />
+        Recipient: @Model.Recipient.Name <br />
+        Text: @Model.Content <br />
+        Time sent: @Model.TimeSent
+    </p>
+}
+else
+{
+    <p>There are no messages.</p>
+}
