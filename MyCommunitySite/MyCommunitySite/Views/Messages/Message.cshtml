@@ -4,21 +4,31 @@
 }
 <h2>@ViewData["Title"]</h2>
 
-<form method="post">
-    <label for="sender">Sender</label>
-    <input id="sender" name="Sender.Name" /><br />
+<div class="container">
+    <form method="post">
+        <div class="row">
+            <label asp-for="Sender" class="col-sm-3" form-label>Sender</label>
+            <div class="col-sm-3">
+                <input asp-for="Sender" class="form-control"/><br />
+            </div>
+        </div>
 
-    <label for="recipient">Recipient</label>
-    <input id="recipient" name="Recipient.Name" /><br />
+        <label for="recipient">Recipient</label>
+        <input id="recipient" name="Recipient.Name" /><br />
 
-    <label for="subjectt">Subject</label>
-    <input id="subject" name="Subject" /><br />
+        <label for="subjectt">Subject</label>
+        <input id="subject" name="Subject" /><br />
 
-    <label for="content">Content</label>
-    <input id="content" name="Content" /><br />
+        <label for="content">Content</label>
+        <input id="content" name="Content" /><br />
 
-    <label for="priority">Priority</label>
-    <input id="priority" name="Priority" /><br />
+        <label for="priority">Priority</label>
+        <input id="priority" name="Priority" /><br />
 
-    <button type="submit">Submit</button>
-</form>
+        <div class="row">
+            <div class="col offest-sm-3">
+                <button type="submit" class="btn-primary">Submit</button>
+            </div>
+        </div>
+    </form>
+</div>
