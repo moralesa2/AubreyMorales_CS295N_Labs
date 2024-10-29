@@ -17,5 +17,5 @@ body {
     margin-bottom: 60px;
     background-image: url("/Images/SpencerButte_3-22-20.jpg");
     background-repeat: no-repeat;
-    background-size: 100%;
+    background-size: cover;
 }
