@@ -4,21 +4,47 @@
 }
 <h2>@ViewData["Title"]</h2>
 
-<form method="post">
-    <label for="sender">Sender</label>
-    <input id="sender" name="Sender.Name" /><br />
+<div class="container">
+    <form method="post">
+        <div class="row">
+            <label asp-for="Sender" class="col-sm-3" form-label>Sender</label>
+            <div class="col-sm-3">
+                <input asp-for="Sender" name="Sender.Name" class="form-control"/><br />
+            </div>
+        </div>
 
-    <label for="recipient">Recipient</label>
-    <input id="recipient" name="Recipient.Name" /><br />
+        <div class="row">
+            <label asp-for="Recipient" class="col-sm-3" form-label>Recipient</label>
+            <div class="col-sm-3">
+                <input asp-for="Recipient" name="Recipient.Name" class="form-control" /><br />
+            </div>
+        </div>
 
-    <label for="subjectt">Subject</label>
-    <input id="subject" name="Subject" /><br />
+        <div class="row">
+            <label asp-for="Subject" class="col-sm-3" form-label>Subject</label>
+            <div class="col-sm-3">
+                <input asp-for="Subject" name="Subject" class="form-control" /><br />
+            </div>
+        </div>
 
-    <label for="content">Content</label>
-    <input id="content" name="Content" /><br />
+        <div class="row">
+            <label asp-for="Content" class="col-sm-3" form-label>Content</label>
+            <div class="col-sm-3">
+                <input asp-for="Content" name="Content" class="form-control" /><br />
+            </div>
+        </div>
 
-    <label for="priority">Priority</label>
-    <input id="priority" name="Priority" /><br />
+        <div class="row">
+            <label asp-for="Priority" class="col-sm-3" form-label>Priority</label>
+            <div class="col-sm-3">
+                <input asp-for="Priority" name="Priority" class="form-control" /><br />
+            </div>
+        </div>
 
-    <button type="submit">Submit</button>
-</form>
+        <div class="row">
+            <div class="col offest-sm-3">
+                <button type="submit" class="btn-primary">Submit</button>
+            </div>
+        </div>
+    </form>
+</div>
