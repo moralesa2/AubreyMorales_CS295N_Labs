@@ -19,3 +19,8 @@ body {
     background-repeat: no-repeat;
     background-size: cover;
 }
+
+/*prevents label input/textarea overlap when window width between 575 & 768*/
+label {
+    margin-right: 1em;
+}
