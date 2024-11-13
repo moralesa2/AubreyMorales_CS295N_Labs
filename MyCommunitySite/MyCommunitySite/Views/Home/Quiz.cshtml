@@ -1,0 +1,17 @@
+﻿@using MyCommunitySite.HikingQuiz
+@model Quiz
+
+<form method="post">
+    @foreach (Question question in Model.Questions)
+    {
+        <p>@question.Q</p>
+        <input name="answers" value="@question.UserA" />
+        @if (question.UserA != "")
+        {
+            @(question.isCorrect ? "Correct" : "Incorrect");
+        } <br />
+    }
+
+    <input type="submit" />
+
+</form>
