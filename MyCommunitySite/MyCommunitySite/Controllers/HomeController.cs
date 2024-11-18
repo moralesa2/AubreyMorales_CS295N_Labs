@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using MyCommunitySite.HikingQuiz;
 using MyCommunitySite.Models;
 using System.Diagnostics;
 

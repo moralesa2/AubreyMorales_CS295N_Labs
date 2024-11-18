@@ -1,17 +1,26 @@
-﻿@using MyCommunitySite.HikingQuiz
-@model Quiz
+﻿@model Quiz
 
 <form method="post">
     @foreach (Question question in Model.Questions)
     {
-        <p>@question.Q</p>
-        <input name="answers" value="@question.UserA" />
+        <div class="fw-bold">@question.Q</div>
+        <input class="mb-2" name="answers" value="@question.UserA" />
         @if (question.UserA != "")
         {
-            @(question.isCorrect ? "Correct" : "Incorrect");
+            @if (question.isCorrect)
+            {
+                <span class="text-success fw-bold">Correct</span>
+            }
+            else
+            {
+                <span class="text-danger fw-bold">Incorrect:</span>
+                <span>@question.A</span>
+            }
         } <br />
     }
-
-    <input type="submit" />
-
+    <button type="submit" class="btn-primary mt-1 mb-2">Submit</button>
+    <div>
+        <span class="text-black">Quiz questions credit:</span>
+        <a href="https://www.advnture.com/features/hiking-facts">https://www.advnture.com/features/hiking-facts</a>
+    </div>
 </form>

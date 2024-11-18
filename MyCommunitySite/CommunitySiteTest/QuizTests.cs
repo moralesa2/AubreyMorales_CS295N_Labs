@@ -1,4 +1,4 @@
-using MyCommunitySite.HikingQuiz;
+using MyCommunitySite.Models;
 
 namespace CommunitySiteTest;
 
@@ -27,7 +27,7 @@ public class QuizTests
         Question q2 = new Question()
         {
             Q = "Who is the author of the short story Moxon's Master?",
-            A = "Ambrose Beirce",
+            A = "Ambrose Bierce",
             UserA = "Algernon Blackwood"
         };
         _quiz.Questions.Add(q2);
