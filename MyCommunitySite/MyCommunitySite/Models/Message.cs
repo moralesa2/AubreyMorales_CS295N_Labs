@@ -4,6 +4,8 @@ namespace MyCommunitySite.Models
 {
     public class Message
     {
+        public int MessageId { get; set; }
+
         [Required(ErrorMessage = "This field cannot be left blank.")]
         public AppUser? Sender { get; set; }
 
