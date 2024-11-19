@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using MyCommunitySite.Models;
+using MyCommunitySite.Data;
 using MySqlConnector;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,7 +13,7 @@ var conStrBuilder = new MySqlConnectionStringBuilder(
 conStrBuilder.Password = builder.Configuration["DbPassword"];
 var connection = conStrBuilder.ConnectionString;
 
-builder.Services.AddDbContext<MessageContext>(options =>
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     var serverVersion = ServerVersion.AutoDetect(connection); 
     options.UseMySql(connection, serverVersion);
