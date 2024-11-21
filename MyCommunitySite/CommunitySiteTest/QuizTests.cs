@@ -1,4 +1,4 @@
-using MyCommunitySite.Models;
+using MyCommunitySite.Models.Quizz;
 
 namespace CommunitySiteTest;
 

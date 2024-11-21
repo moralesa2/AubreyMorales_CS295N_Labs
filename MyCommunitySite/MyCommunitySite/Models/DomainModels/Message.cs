@@ -5,6 +5,12 @@ namespace MyCommunitySite.Models
 {
     public class Message
     {
+        /*public Message()
+        {
+            Sender = new AppUser();
+            Recipient = new AppUser();
+        }*/
+
         public int MessageId { get; set; }
 
         [Required(ErrorMessage = "This field cannot be left blank.")]
@@ -19,7 +25,7 @@ namespace MyCommunitySite.Models
 
         public string? Subject { get; set; }
 
-        [Range(1, 5, ErrorMessage ="Priority must be from 1 to 5.")]
+        [Range(1, 5, ErrorMessage = "Priority must be from 1 to 5.")]
         public int Priority { get; set; }
 
         [Required(ErrorMessage = "You can't send a blank message.")]
