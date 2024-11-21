@@ -18,11 +18,6 @@ namespace MyCommunitySite.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
         public IActionResult History()
         {
             return View();

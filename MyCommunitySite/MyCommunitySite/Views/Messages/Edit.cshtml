@@ -1,34 +1,36 @@
-﻿@model Message
+﻿@model Message 
+
 @{
-    ViewData["Title"] = "Send a message";
+    string title = ViewBag.Action + " Message";
+    ViewData["Title"] = title;
 }
 <h2>@ViewData["Title"]</h2>
 
 <div class="container">
-    <form method="post">
+    <form asp-action="Edit" method="post">
         <div class="row">
-            <label asp-for="Sender" class="col-sm-1" form-label>Sender</label>
+            <label asp-for="SenderId" class="col-sm-1 form-label">Sender</label>
             <div class="col-sm-3">
-                <input asp-for="Sender" name="Sender.Name" class="form-control" required/><br />
+                <input asp-for="SenderId" name="Sender.Name" class="form-control" required/><br />
             </div>
         </div>
 
         <div class="row">
-            <label asp-for="Recipient" class="col-sm-1" form-label>Recipient</label>
+            <label asp-for="RecipientId" class="col-sm-1 form-label">Recipient</label>
             <div class="col-sm-3">
-                <input asp-for="Recipient" name="Recipient.Name" class="form-control" required /><br />
+                <input asp-for="RecipientId" name="Recipient.Name" class="form-control" required /><br />
             </div>
         </div>
 
         <div class="row">
-            <label asp-for="Subject" class="col-sm-1" form-label>Subject</label>
+            <label asp-for="Subject" class="col-sm-1 form-label">Subject</label>
             <div class="col-sm-3">
                 <input asp-for="Subject" name="Subject" class="form-control" /><br />
             </div>
         </div>
 
         <div class="row">
-            <label asp-for="Content" class="col-sm-1" form-label>Content</label>
+            <label asp-for="Content" class="col-sm-1 form-label">Content</label>
             <div class="col-sm-4">
                 <textarea asp-for="Content" name="Content" class="form-control" rows="3" required></textarea>
             </div><br />
@@ -36,11 +38,13 @@
 
         @* padding *@
         <div class="row pt-4">
-            <label asp-for="Priority" class="col-sm-1" form-label>Priority</label>
+            <label asp-for="Priority" class="col-sm-1 form-label">Priority</label>
             <div class="col-sm-2">
                 <input asp-for="Priority" name="Priority" class="form-control"/><br />
             </div>
         </div>
+
+        <input type="hidden" asp-for="MessageId" />
 
         @* margin *@
         <div class="row mt-5">
