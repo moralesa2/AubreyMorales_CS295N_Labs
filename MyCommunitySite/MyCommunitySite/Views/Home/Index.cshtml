@@ -1,12 +1,42 @@
-﻿@{
+﻿@model List<AppUser>
+@{
     ViewData["Title"] = "MyCommunityWebsite";
 }
 
 <div class="jumbotron">
     <p class="lead">Website for Eugene area hiking enthusiasts.</p>
-    <div class="list-group">
-        <a asp-controller="Messages" asp-action="Index">Messages</a>
-        <a asp-controller="Home" asp-action="History">History</a>
-        <a asp-controller="Home" asp-action="Quiz">Take the hiking quiz!</a>  
+    <div class="d-inline-grid">
+        <a class="me-2" asp-controller="Home" asp-action="Add">Add User</a>
+        <a class="me-2" asp-controller="Messages" asp-action="Index">Messages</a>
+        <a class="me-2" asp-controller="Home" asp-action="History">History</a>
+        <a asp-controller="Home" asp-action="Quiz">Take the hiking quiz!</a>
     </div>
 </div>
+<table class="table table-bordered table-striped mt-5 table-sm" style="width:75%">
+    <thead>
+        <tr>
+            <th>User</th>
+            <th>Signup Date</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.Name</td>
+                <td>@user.SignupDate.ToString("yyyy-MM-dd")</td>
+                <td>
+                    <a asp-controller="Home"
+                       asp-action="Edit"
+                       asp-route-id="@user.AppUserId">
+                        Edit</a>
+                    <a asp-controller="Home"
+                       asp-action="Delete"
+                       asp-route-id="@user.AppUserId">
+                       Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

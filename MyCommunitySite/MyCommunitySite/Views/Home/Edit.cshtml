@@ -1,0 +1,24 @@
+﻿@model AppUser
+
+@{
+    string title = ViewBag.Action + " User";
+    ViewData["Title"] = title;
+}
+<h2>@ViewData["Title"]</h2>
+
+<div class="container">
+    <form asp-action="Edit" method="post">
+        <div class="row">
+            <label asp-for="Name" class="col-sm-1 form-label">Name</label>
+            <div class="col-sm-3">
+                <input asp-for="Name" name="Name" class="form-control" required/><br />
+            </div>
+        </div>
+
+        <input type="hidden" asp-for=SignupDate />
+        <input type="hidden" asp-for="AppUserId" />
+
+        <button type="submit" class="btn btn-primary">Save</button>
+        <a asp-controller="Home" asp-action="Index" class="btn btn-primary">Cancel</a>
+    </form>
+</div>

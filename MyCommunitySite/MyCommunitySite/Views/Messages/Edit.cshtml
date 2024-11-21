@@ -8,17 +8,30 @@
 
 <div class="container">
     <form asp-action="Edit" method="post">
+        <div asp-validation-summary="All" class="text-danger"></div>
         <div class="row">
             <label asp-for="SenderId" class="col-sm-1 form-label">Sender</label>
             <div class="col-sm-3">
-                <input asp-for="SenderId" name="Sender.Name" class="form-control" required/><br />
+                <select asp-for="SenderId" class="form-select" required>
+                @foreach (AppUser a in ViewBag.AppUsers)
+                {
+                    <option value="@a.AppUserId">@a.Name</option>
+                }
+                </select>
+                <br />
             </div>
         </div>
 
         <div class="row">
             <label asp-for="RecipientId" class="col-sm-1 form-label">Recipient</label>
             <div class="col-sm-3">
-                <input asp-for="RecipientId" name="Recipient.Name" class="form-control" required /><br />
+                <select asp-for="RecipientId" class="form-select" required>
+                @foreach (AppUser a in ViewBag.AppUsers)
+                {
+                    <option value="@a.AppUserId">@a.Name</option>
+                }
+                </select>
+                <br />
             </div>
         </div>
 
@@ -40,20 +53,13 @@
         <div class="row pt-4">
             <label asp-for="Priority" class="col-sm-1 form-label">Priority</label>
             <div class="col-sm-2">
-                <input asp-for="Priority" name="Priority" class="form-control"/><br />
+                <input asp-for="Priority" name="Priority" class="form-control" min="1" max="5"/><br />
             </div>
         </div>
 
         <input type="hidden" asp-for="MessageId" />
 
-        @* margin *@
-        <div class="row mt-5">
-            <div class="col-sm-2">
-                <button type="submit" class="btn-primary">Submit</button>
-            </div>
-            <div class="col-sm-2">
-                <button type="reset" class="btn-secondary">Clear</button>
-            </div>
-        </div>
+        <button type="submit" class="btn btn-primary">Save</button>
+        <a asp-controller="Messages" asp-action="Index" class="btn btn-primary">Cancel</a>
     </form>
 </div>

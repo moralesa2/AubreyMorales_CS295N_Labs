@@ -4,6 +4,6 @@
     {
         public int AppUserId { get; set; }
         public string? Name { get; set; }
-        public DateTime SignupDate { get; set; }
+        public DateTime SignupDate { get; set; } = DateTime.Now.ToLocalTime();
     }
 }

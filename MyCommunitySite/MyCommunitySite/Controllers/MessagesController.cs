@@ -11,7 +11,6 @@ namespace MyCommunitySite.Controllers
 
         public MessagesController(ApplicationDbContext ctx) => context = ctx;
 
-
         public IActionResult Index()
         {
             var messages = context.Messages
@@ -25,12 +24,22 @@ namespace MyCommunitySite.Controllers
         [HttpGet]
         public IActionResult Add()
         {
-            var message = new Message()
-            {
-                TimeSent = DateTime.Now.ToUniversalTime(),
-            };
+            ViewBag.Action = "Add";
+            ViewBag.AppUsers = context.AppUsers
+                .OrderBy(a => a.Name)
+                .ToList();
+            return View("Edit", new Message());
+        }
 
-            return View("Edit", message);
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            ViewBag.Action = "Edit";
+            ViewBag.AppUsers = context.AppUsers
+                .OrderBy(a => a.Name)
+                .ToList();
+            var message = context.Messages.Find(id);
+            return View(message);
         }
 
         [HttpPost]
@@ -48,6 +57,9 @@ namespace MyCommunitySite.Controllers
             else
             {
                 ViewBag.Action = (message.MessageId == 0 ? "Add" : "Edit");
+                ViewBag.AppUsers = context.AppUsers
+                    .OrderBy(a => a.Name)
+                    .ToList();
                 return View(message);
             }
         }
@@ -60,7 +72,7 @@ namespace MyCommunitySite.Controllers
         }
 
         [HttpPost]
-        public IActionResult Deleter(Message message)
+        public IActionResult Delete(Message message)
         {
             context.Messages.Remove(message);
             context.SaveChanges();

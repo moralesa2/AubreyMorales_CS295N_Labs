@@ -25,8 +25,8 @@
             @foreach (var message in Model)
             {   // fix to show sender/recipient names instead of ids
                 <tr>
-                    <td>@message.SenderId</td>
-                    <td>@message.RecipientId</td>
+                    <td>@message.Sender.Name</td>
+                    <td>@message.Recipient.Name</td>
                     <td>@message.Subject</td>
                     <td>
                         <textarea>@message.Content</textarea>
@@ -34,8 +34,8 @@
                     <td>@message.TimeSent</td>
                     <td>@message.Priority</td>
                     <td>
-                        <a asp-controller="Movie" asp-action="Edit" asp-route-id="@message.MessageId">Edit</a>
-                        <a asp-controller="Movie" asp-action="Delete" asp-route-id="@message.MessageId">Delete</a>
+                        <a asp-controller="Messages" asp-action="Edit" asp-route-id="@message.MessageId">Edit</a>
+                        <a asp-controller="Messages" asp-action="Delete" asp-route-id="@message.MessageId">Delete</a>
                     </td>
                 </tr>
             }

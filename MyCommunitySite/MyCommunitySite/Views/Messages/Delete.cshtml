@@ -1,0 +1,13 @@
+﻿@model Message
+@{
+    ViewData["Title"] = "Delete Message";
+}
+<h2>Confirm Deletion</h2>
+<h3>@Model.Content <br/>(@Model.TimeSent)</h3>
+
+
+<form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="MessageId" />
+    <button type="submit" class="btn btn-primary">Delete</button>
+    <a asp-controller="Messages" asp-action="Index" class="btn btn-primary">Cancel</a>
+</form>
