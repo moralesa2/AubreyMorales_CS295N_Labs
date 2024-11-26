@@ -1,4 +1,6 @@
-﻿namespace MyCommunitySite.Models
+﻿using Newtonsoft.Json.Bson;
+
+namespace MyCommunitySite.Models
 {
     public interface IRepository<T> where T : class
     {
@@ -10,6 +12,7 @@
         void Insert(T entity);
         void Update(T entity);
         void Delete(int id);
+        void Delete(T entity);
         void Save();
     }
 }

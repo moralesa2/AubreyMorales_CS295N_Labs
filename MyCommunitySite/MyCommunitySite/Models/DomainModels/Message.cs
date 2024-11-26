@@ -5,12 +5,6 @@ namespace MyCommunitySite.Models
 {
     public class Message
     {
-        /*public Message()
-        {
-            Sender = new AppUser();
-            Recipient = new AppUser();
-        }*/
-
         public int MessageId { get; set; }
 
         [Required(ErrorMessage = "This field cannot be left blank.")]

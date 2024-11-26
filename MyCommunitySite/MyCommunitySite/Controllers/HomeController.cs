@@ -6,17 +6,19 @@ namespace MyCommunitySite.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        readonly IRepository<AppUser> userRepo;
 
-        private ApplicationDbContext context { get; set; }
+        private readonly QueryOptions<AppUser> uOptions = new QueryOptions<AppUser>();
 
-        public HomeController(ApplicationDbContext ctx) => context = ctx;
+        public HomeController(IRepository<AppUser> uRepo)
+        {
+            this.userRepo = uRepo;
+        }
 
         public IActionResult Index()
         {
-            var users = context.AppUsers
-                .OrderBy(au => au.Name)
-                .ToList();
+            uOptions.OrderBy = appUser => appUser.Name;
+            var users = userRepo.List(uOptions);
             return View(users);
         }
 
@@ -24,17 +26,18 @@ namespace MyCommunitySite.Controllers
         [HttpGet]
         public IActionResult Add()
         {
-            ViewBag.Action = "Add";
-            var user = new AppUser();
+            uOptions.OrderBy = appUser => appUser.Name;
+            var appUsers = userRepo.List(uOptions);
 
-            return View("Edit", user);
+            ViewBag.Action = "Add";
+            return View("Edit", new AppUser());
         }
 
         [HttpGet]
         public IActionResult Edit(int id)
         {
             ViewBag.Action = "Edit";
-            var user = context.AppUsers.Find(id);
+            var user = userRepo.Get(id);
             return View(user);
         }
 
@@ -44,10 +47,10 @@ namespace MyCommunitySite.Controllers
             if (ModelState.IsValid)
             {
                 if (user.AppUserId == 0)
-                    context.AppUsers.Add(user);
+                    userRepo.Insert(user);
                 else
-                    context.AppUsers.Update(user);
-                context.SaveChanges();
+                    userRepo.Update(user);
+                userRepo.Save();
                 return RedirectToAction("Index", "Home");
             }
             else
@@ -60,15 +63,15 @@ namespace MyCommunitySite.Controllers
         [HttpGet]
         public IActionResult Delete(int id)
         {
-            var user = context.AppUsers.Find(id);
+            var user = userRepo.Get(id);
             return View(user);
         }
 
         [HttpPost]
         public IActionResult Delete(AppUser user)
         {
-            context.AppUsers.Remove(user);
-            context.SaveChanges();
+            userRepo.Delete(user);
+            userRepo.Save();
             return RedirectToAction("Index", "Home");
         }
         #endregion
