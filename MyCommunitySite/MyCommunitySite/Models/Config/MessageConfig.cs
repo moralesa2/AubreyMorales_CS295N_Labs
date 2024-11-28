@@ -7,9 +7,6 @@ namespace MyCommunitySite.Models
     {
         public void Configure(EntityTypeBuilder<Message> entity)
         {
-            // not sure if needed yet
-            /*entity.HasOne(m => m.Sender);
-            entity.HasOne(m => m.Recipient);*/
             entity.HasData(
                 new Message
                 {

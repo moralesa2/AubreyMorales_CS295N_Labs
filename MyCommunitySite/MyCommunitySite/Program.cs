@@ -1,16 +1,18 @@
 using Microsoft.EntityFrameworkCore;
 using MyCommunitySite.Models;
 using MySqlConnector;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddControllersWithViews();
+builder.Configuration.AddUserSecrets(Assembly.GetExecutingAssembly(), true);
 
 var conStrBuilder = new MySqlConnectionStringBuilder(
-    builder.Configuration.GetConnectionString("MessageContext"));
+    builder.Configuration.GetConnectionString("MySqlConnection"));
 conStrBuilder.Password = builder.Configuration["DbPassword"];
 var connection = conStrBuilder.ConnectionString;
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
 builder.Services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>

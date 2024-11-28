@@ -75,23 +75,6 @@ namespace MyCommunitySite.Controllers
 
                 return View(message);
             }
-            /*var appUsers = userRepo.List(uOptions);
-            if (ModelState.IsValid)
-            {
-                if (message.MessageId == 0)
-                    messageRepo.Insert(message);
-                else
-                    messageRepo.Update(message);
-                messageRepo.Save();
-                return RedirectToAction("Index", "Messages");
-            }
-            else
-            {
-                ViewBag.Action = (message.MessageId == 0 ? "Add" : "Edit");
-                uOptions.OrderBy = appUser => appUser.Name;
-                ViewBag.AppUsers = appUsers;
-                return View(message);
-            }*/
         }
 
         [HttpGet]
