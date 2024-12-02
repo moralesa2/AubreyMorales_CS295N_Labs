@@ -1,4 +1,4 @@
-﻿namespace MyCommunitySite.Models
+﻿namespace MyCommunitySite.Models.Quizz
 {
     public class Question
     {

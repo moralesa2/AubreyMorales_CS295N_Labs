@@ -23,7 +23,7 @@
         @if (Model.Count != 0)
         {
             @foreach (var message in Model)
-            {   // fix to show sender/recipient names instead of ids
+            {
                 <tr>
                     <td>@message.Sender.Name</td>
                     <td>@message.Recipient.Name</td>
@@ -46,19 +46,3 @@
         }
     </tbody>
 </table>
-
-@* @if (Model.Content != null)
-{
-    <p>
-        Sender: @Model.Sender.Name <br />
-        Recipient: @Model.Recipient.Name <br />
-        Subject: @Model.Subject <br />
-        Text: @Model.Content <br />
-        Priority: @Model.Priority <br />
-        Time sent: @Model.TimeSent
-    </p>
-}
-else
-{
-    <p>There are no messages.</p>
-} *@

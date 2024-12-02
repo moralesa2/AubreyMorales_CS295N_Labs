@@ -1,9 +1,11 @@
+using MyCommunitySite.Models.Quizz;
 using MyCommunitySite.Models;
 
 namespace CommunitySiteTest;
 
 public class QuizTests
 {
+
     private Quiz _quiz = new Quiz();
 
     [Fact]

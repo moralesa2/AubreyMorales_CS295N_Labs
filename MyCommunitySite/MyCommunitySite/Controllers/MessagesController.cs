@@ -1,44 +1,54 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using MyCommunitySite.Data;
 using MyCommunitySite.Models;
 
 namespace MyCommunitySite.Controllers
 {
     public class MessagesController : Controller
     {
-        private ApplicationDbContext context {  get; set; }
+        readonly IRepository<Message> messageRepo;
+        readonly IRepository<AppUser> userRepo;
 
-        public MessagesController(ApplicationDbContext ctx) => context = ctx;
+        private readonly QueryOptions<Message> mOptions = new QueryOptions<Message>();
+        private readonly QueryOptions<AppUser> uOptions = new QueryOptions<AppUser>();
+
+        public MessagesController(IRepository<Message> mRepo, IRepository<AppUser> uRepo)
+        {
+            this.messageRepo = mRepo;
+            this.userRepo = uRepo;
+        }
 
         public IActionResult Index()
         {
-            var messages = context.Messages
-                .Include(m => m.Sender)
-                .Include(m => m.Recipient)
-                .OrderBy(m => m.TimeSent)
-                .ToList();
+            mOptions.Includes = "Sender, Recipient";
+            mOptions.OrderBy = message => message.TimeSent;
+            var messages = messageRepo.List(mOptions);
+
             return View(messages);
         }
 
         [HttpGet]
         public IActionResult Add()
         {
+            mOptions.Includes = "Sender, Recipient";
+            uOptions.OrderBy = appUser => appUser.Name;
+            var appUsers = userRepo.List(uOptions);
+
             ViewBag.Action = "Add";
-            ViewBag.AppUsers = context.AppUsers
-                .OrderBy(a => a.Name)
-                .ToList();
+            ViewBag.AppUsers = appUsers;
             return View("Edit", new Message());
         }
 
         [HttpGet]
         public IActionResult Edit(int id)
         {
+            mOptions.Includes = "Sender, Recipient";
+            uOptions.OrderBy = appUser => appUser.Name;
+            var appUsers = userRepo.List(uOptions);
+
             ViewBag.Action = "Edit";
-            ViewBag.AppUsers = context.AppUsers
-                .OrderBy(a => a.Name)
-                .ToList();
-            var message = context.Messages.Find(id);
+            ViewBag.AppUsers = appUsers;
+            var message = messageRepo.Get(id);
             return View(message);
         }
 
@@ -47,19 +57,22 @@ namespace MyCommunitySite.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (message.MessageId == 0 )
-                    context.Messages.Add(message);
+                if (message.MessageId == 0)
+                    messageRepo.Insert(message);
                 else
-                    context.Messages.Update(message);
-                context.SaveChanges();
+                    messageRepo.Update(message);
+                messageRepo.Save();
                 return RedirectToAction("Index", "Messages");
             }
             else
             {
+                mOptions.Includes = "Sender, Recipient";
+                uOptions.OrderBy = appUser => appUser.Name;
+                var appUsers = userRepo.List(uOptions);
+
                 ViewBag.Action = (message.MessageId == 0 ? "Add" : "Edit");
-                ViewBag.AppUsers = context.AppUsers
-                    .OrderBy(a => a.Name)
-                    .ToList();
+                ViewBag.AppUsers = appUsers;
+
                 return View(message);
             }
         }
@@ -67,15 +80,15 @@ namespace MyCommunitySite.Controllers
         [HttpGet]
         public IActionResult Delete(int id)
         {
-            var message = context.Messages.Find(id);
+            var message = messageRepo.Get(id);
             return View(message);
         }
 
         [HttpPost]
         public IActionResult Delete(Message message)
         {
-            context.Messages.Remove(message);
-            context.SaveChanges();
+            messageRepo.Delete(message);
+            messageRepo.Save();
             return RedirectToAction("Index", "Messages");
         }
     }

@@ -19,7 +19,7 @@ namespace MyCommunitySite.Models
 
         public string? Subject { get; set; }
 
-        [Range(1, 5, ErrorMessage ="Priority must be from 1 to 5.")]
+        [Range(1, 5, ErrorMessage = "Priority must be from 1 to 5.")]
         public int Priority { get; set; }
 
         [Required(ErrorMessage = "You can't send a blank message.")]
