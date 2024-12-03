@@ -7,6 +7,14 @@
     <a asp-controller="Messages" asp-action="Add">Write a Message</a>
 </div>
 <h4>Posted Messages</h4>
+Filter Messages:
+<form method="post" action="/Messages/Filter">
+<label name="sender">Sender</label><br />
+<input name="sender"/><br />
+<label name="date">Date</label><br />
+<input name="date"/><br />
+<button type="submit">Submit</button>
+</form>
 <table class="table table-bordered table-striped">
     <thead>
         <tr>
