@@ -34,26 +34,6 @@ namespace MyCommunitySite.Migrations
                     b.HasKey("AppUserId");
 
                     b.ToTable("AppUsers");
-
-                    b.HasData(
-                        new
-                        {
-                            AppUserId = 1,
-                            Name = "Ellen Ripley",
-                            SignupDate = new DateTime(2024, 11, 21, 14, 40, 25, 785, DateTimeKind.Local).AddTicks(3909)
-                        },
-                        new
-                        {
-                            AppUserId = 2,
-                            Name = "Laurie Strode",
-                            SignupDate = new DateTime(2024, 11, 21, 14, 40, 25, 785, DateTimeKind.Local).AddTicks(3912)
-                        },
-                        new
-                        {
-                            AppUserId = 3,
-                            Name = "Pamela Vorhees",
-                            SignupDate = new DateTime(2024, 11, 21, 14, 40, 25, 785, DateTimeKind.Local).AddTicks(3915)
-                        });
                 });
 
             modelBuilder.Entity("MyCommunitySite.Models.Hike", b =>
@@ -73,20 +53,6 @@ namespace MyCommunitySite.Migrations
                     b.HasKey("HikeId");
 
                     b.ToTable("Hikes");
-
-                    b.HasData(
-                        new
-                        {
-                            HikeId = 1,
-                            Date = "11/08/2024",
-                            Location = "Spencer Butte"
-                        },
-                        new
-                        {
-                            HikeId = 2,
-                            Date = "10/13/2024",
-                            Location = "Ridgeline Trail - Fox Hollow to Mt. Baldy"
-                        });
                 });
 
             modelBuilder.Entity("MyCommunitySite.Models.Message", b =>
@@ -121,28 +87,6 @@ namespace MyCommunitySite.Migrations
                     b.HasIndex("SenderId");
 
                     b.ToTable("Messages");
-
-                    b.HasData(
-                        new
-                        {
-                            MessageId = 1,
-                            Content = "This is a test message",
-                            Priority = 0,
-                            RecipientId = 2,
-                            SenderId = 1,
-                            Subject = "Test1",
-                            TimeSent = new DateTime(2024, 11, 21, 14, 40, 25, 785, DateTimeKind.Local).AddTicks(3737)
-                        },
-                        new
-                        {
-                            MessageId = 2,
-                            Content = "This is a 2nd test message",
-                            Priority = 0,
-                            RecipientId = 3,
-                            SenderId = 2,
-                            Subject = "Test2",
-                            TimeSent = new DateTime(2024, 11, 21, 14, 40, 25, 785, DateTimeKind.Local).AddTicks(3773)
-                        });
                 });
 
             modelBuilder.Entity("MyCommunitySite.Models.Message", b =>
