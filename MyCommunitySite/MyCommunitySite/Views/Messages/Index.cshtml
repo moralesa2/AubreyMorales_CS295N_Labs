@@ -6,16 +6,18 @@
     <h1>@ViewData["Title"]</h1>
     <a asp-controller="Messages" asp-action="Add">Write a Message</a>
 </div>
-<h4>Posted Messages</h4>
 Filter Messages:
-<form method="post" action="/Messages/Filter">
-<label name="sender">Sender</label><br />
-<input name="sender"/><br />
-<label name="date">Date</label><br />
-<input name="date"/><br />
-<button type="submit">Submit</button>
-</form>
-<table class="table table-bordered table-striped">
+<div class="d-flex align-items-center mb-2 mt-2">
+    <form method="post" action="/Messages/Filter" class="d-flex">
+        <input class="me-1" name="sender" placeholder="Sender"/>
+        <input class="me-1" name="date" placeholder="MM/DD/YYYY"/>
+        <button class="btn-primary me-1" type="submit">Submit</button>
+    </form>
+    <form method="post" action="/Messages" class="d-flex">
+        <button class="btn-primary" type="submit">Clear Filters</button>       
+    </form>
+</div>
+<table class="table table-bordered table-light opacity-75 overflow-auto">
     <thead>
         <tr>
             <th>Sender</th>

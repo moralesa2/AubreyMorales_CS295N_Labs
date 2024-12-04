@@ -24,3 +24,7 @@ body {
 label {
     margin-right: 1em;
 }
+
+button {
+    border-radius: 0.3em;
+}
