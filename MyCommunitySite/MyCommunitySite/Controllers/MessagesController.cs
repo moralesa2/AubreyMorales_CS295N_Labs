@@ -91,5 +91,15 @@ namespace MyCommunitySite.Controllers
             messageRepo.Save();
             return RedirectToAction("Index", "Messages");
         }
+
+        public IActionResult Filter(string sender, string date)
+        {
+            var messages = messageRepo.List(mOptions)
+                .Where(m => sender == null || m.Sender.Name == sender)
+                .Where(m => date == null || m.TimeSent.ToShortDateString() == date)
+                .ToList();
+
+            return View("Index", messages);
+        }
     }
 }

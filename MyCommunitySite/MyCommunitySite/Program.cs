@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using MyCommunitySite.Models;
+using MyCommunitySite.Models.DataLayer;
 using MySqlConnector;
 using System.Reflection;
 
@@ -40,5 +41,11 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    SeedData.Seed(dbContext);
+}
 
 app.Run();
