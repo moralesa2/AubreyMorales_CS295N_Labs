@@ -1,9 +1,11 @@
-﻿namespace MyCommunitySite.Models
+﻿using Microsoft.AspNetCore.Identity;
+
+namespace MyCommunitySite.Models
 {
-    public class AppUser
+    public class AppUser : IdentityUser
     {
-        public int AppUserId { get; set; }
-        public string? Name { get; set; }
+        /*public int AppUserId { get; set; }
+        public string? Name { get; set; }*/
         public DateTime SignupDate { get; set; } = DateTime.Now.ToLocalTime();
     }
 }

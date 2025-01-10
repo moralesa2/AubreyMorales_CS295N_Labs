@@ -24,16 +24,16 @@
         @foreach (var user in Model)
         {
             <tr>
-                <td>@user.Name</td>
+                <td>@user.UserName</td>
                 <td>@user.SignupDate.ToString("yyyy-MM-dd")</td>
                 <td>
                     <a asp-controller="Home"
                        asp-action="Edit"
-                       asp-route-id="@user.AppUserId">
+                       asp-route-id="@user.Id">
                         Edit</a>
                     <a asp-controller="Home"
                        asp-action="Delete"
-                       asp-route-id="@user.AppUserId">
+                       asp-route-id="@user.Id">
                        Delete</a>
                 </td>
             </tr>

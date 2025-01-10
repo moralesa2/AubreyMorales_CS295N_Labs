@@ -17,7 +17,7 @@ namespace MyCommunitySite.Controllers
 
         public IActionResult Index()
         {
-            uOptions.OrderBy = appUser => appUser.Name;
+            uOptions.OrderBy = appUser => appUser.UserName;
             var users = userRepo.List(uOptions);
             return View(users);
         }
@@ -26,7 +26,7 @@ namespace MyCommunitySite.Controllers
         [HttpGet]
         public IActionResult Add()
         {
-            uOptions.OrderBy = appUser => appUser.Name;
+            uOptions.OrderBy = appUser => appUser.UserName;
             var appUsers = userRepo.List(uOptions);
 
             ViewBag.Action = "Add";
@@ -46,7 +46,7 @@ namespace MyCommunitySite.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (user.AppUserId == 0)
+                if (Int32.Parse(user.Id) == 0)
                     userRepo.Insert(user);
                 else
                     userRepo.Update(user);
@@ -55,7 +55,7 @@ namespace MyCommunitySite.Controllers
             }
             else
             {
-                ViewBag.Action = (user.AppUserId == 0 ? "Add" : "Edit");
+                ViewBag.Action = (Int32.Parse(user.Id) == 0 ? "Add" : "Edit");
                 return View(user);
             }
         }

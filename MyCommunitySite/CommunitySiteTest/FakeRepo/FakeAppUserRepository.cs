@@ -8,7 +8,7 @@ namespace CommunitySiteTest.FakeRepo
 
         public  AppUser? Get(int id)
         {
-            AppUser appUser = appUsers.Find(a => a.AppUserId == id);
+            AppUser appUser = appUsers.Find(a => Int32.Parse(a.Id) == id);
             return appUser;
         }
 
@@ -17,7 +17,7 @@ namespace CommunitySiteTest.FakeRepo
             int status = 0;
             if (model != null)
             {
-                model.AppUserId = appUsers.Count + 1;
+                model.Id = (appUsers.Count + 1).ToString();
                 appUsers.Add(model);
                 status = 1;
             }

@@ -31,7 +31,7 @@ namespace MyCommunitySite.Controllers
         public IActionResult Add()
         {
             mOptions.Includes = "Sender, Recipient";
-            uOptions.OrderBy = appUser => appUser.Name;
+            uOptions.OrderBy = appUser => appUser.UserName;
             var appUsers = userRepo.List(uOptions);
 
             ViewBag.Action = "Add";
@@ -43,7 +43,7 @@ namespace MyCommunitySite.Controllers
         public IActionResult Edit(int id)
         {
             mOptions.Includes = "Sender, Recipient";
-            uOptions.OrderBy = appUser => appUser.Name;
+            uOptions.OrderBy = appUser => appUser.UserName;
             var appUsers = userRepo.List(uOptions);
 
             ViewBag.Action = "Edit";
@@ -67,7 +67,7 @@ namespace MyCommunitySite.Controllers
             else
             {
                 mOptions.Includes = "Sender, Recipient";
-                uOptions.OrderBy = appUser => appUser.Name;
+                uOptions.OrderBy = appUser => appUser.UserName;
                 var appUsers = userRepo.List(uOptions);
 
                 ViewBag.Action = (message.MessageId == 0 ? "Add" : "Edit");
@@ -96,7 +96,7 @@ namespace MyCommunitySite.Controllers
         {
             mOptions.Includes = "Sender, Recipient";
             var messages = messageRepo.List(mOptions)
-                .Where(m => sender == null || m.Sender.Name == sender)
+                .Where(m => sender == null || m.Sender.UserName == sender)
                 .Where(m => date == null || m.TimeSent.ToString("MM/dd/yyyy") == date)
                 .ToList();
 
