@@ -94,9 +94,10 @@ namespace MyCommunitySite.Controllers
 
         public IActionResult Filter(string sender, string date)
         {
+            mOptions.Includes = "Sender, Recipient";
             var messages = messageRepo.List(mOptions)
                 .Where(m => sender == null || m.Sender.Name == sender)
-                .Where(m => date == null || m.TimeSent.ToShortDateString() == date)
+                .Where(m => date == null || m.TimeSent.ToString("MM/dd/yyyy") == date)
                 .ToList();
 
             return View("Index", messages);
