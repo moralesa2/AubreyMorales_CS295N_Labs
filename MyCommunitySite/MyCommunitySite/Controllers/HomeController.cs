@@ -46,7 +46,7 @@ namespace MyCommunitySite.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (Int32.Parse(user.Id) == 0)
+                if (user.Id == null)
                     userRepo.Insert(user);
                 else
                     userRepo.Update(user);
@@ -55,7 +55,7 @@ namespace MyCommunitySite.Controllers
             }
             else
             {
-                ViewBag.Action = (Int32.Parse(user.Id) == 0 ? "Add" : "Edit");
+                ViewBag.Action = user.Id == null ? "Add" : "Edit";
                 return View(user);
             }
         }

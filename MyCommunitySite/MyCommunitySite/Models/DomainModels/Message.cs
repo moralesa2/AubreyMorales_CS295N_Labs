@@ -7,13 +7,9 @@ namespace MyCommunitySite.Models
     {
         public int MessageId { get; set; }
 
-        [Required(ErrorMessage = "This field cannot be left blank.")]
-        public int SenderId { get; set; }
         [ValidateNever]
         public AppUser Sender { get; set; } = null!;
 
-        [Required(ErrorMessage = "This field cannot be left blank.")]
-        public int RecipientId { get; set; }
         [ValidateNever]
         public AppUser Recipient { get; set; } = null!;
 

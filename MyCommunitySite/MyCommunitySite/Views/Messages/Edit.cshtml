@@ -10,9 +10,9 @@
     <form asp-action="Edit" method="post">
         <div asp-validation-summary="All" class="text-danger"></div>
         <div class="row">
-            <label asp-for="SenderId" class="col-sm-1 form-label">Sender</label>
+            <label asp-for="Sender.Id" class="col-sm-1 form-label">Sender</label>
             <div class="col-sm-3">
-                <select asp-for="SenderId" class="form-select" required>
+                <select asp-for="Sender.Id" class="form-select" required>
                 @foreach (AppUser a in ViewBag.AppUsers)
                 {
                     <option value="@a.Id">@a.UserName</option>
@@ -23,9 +23,9 @@
         </div>
 
         <div class="row">
-            <label asp-for="RecipientId" class="col-sm-1 form-label">Recipient</label>
+            <label asp-for="Recipient.Id" class="col-sm-1 form-label">Recipient</label>
             <div class="col-sm-3">
-                <select asp-for="RecipientId" class="form-select" required>
+                <select asp-for="Recipient.Id" class="form-select" required>
                 @foreach (AppUser a in ViewBag.AppUsers)
                 {
                     <option value="@a.Id">@a.UserName</option>

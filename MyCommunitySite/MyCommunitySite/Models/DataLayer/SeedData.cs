@@ -9,15 +9,17 @@ namespace MyCommunitySite.Models.DataLayer
         {
             if (!context.Messages.Any())
             {
-                /*AppUser user1 = new AppUser {Name = "Naru"};
-                AppUser user2 = new AppUser {Name = "Marion Crane"};
-                AppUser user3 = new AppUser {Name = "Lila Crane"};
-
-                context.AppUsers.Add(user1);
-                context.AppUsers.Add(user2);
-                context.AppUsers.Add(user3);*/
-
                 var userManager = provider.GetRequiredService<UserManager<AppUser>>();
+                const string SECRET_PASSWORD = "?Password1";
+
+                AppUser naru = new AppUser { UserName = "Naru" };
+                var result1 = userManager.CreateAsync(naru, SECRET_PASSWORD);
+              
+                AppUser lilaCrane = new AppUser { UserName = "Lila Crane" };
+                var result2 = userManager.CreateAsync(lilaCrane, SECRET_PASSWORD);
+
+                AppUser marionCrane = new AppUser { UserName = "Marion Crane" };
+                var result3 = userManager.CreateAsync(marionCrane, SECRET_PASSWORD);
 
                 Hike hike1 = new Hike {Location = "Mount Doom", Date = "11/17/2003"};
                 Hike hike2 = new Hike { Location = "The Shire", Date = "11/19/2001" };
@@ -27,8 +29,8 @@ namespace MyCommunitySite.Models.DataLayer
 
                 Message message1 = new Message
                 {
-                    SenderId = 1,
-                    RecipientId = 2,
+                    Sender = naru,
+                    Recipient = lilaCrane,
                     Subject = "identity test 1",
                     Content = "message 1 for lab01 identity"
                 };
@@ -36,8 +38,8 @@ namespace MyCommunitySite.Models.DataLayer
 
                 Message message2 = new Message
                 {
-                    SenderId = 2,
-                    RecipientId = 3,
+                    Sender = lilaCrane,
+                    Recipient = marionCrane,
                     Subject = "identity test 2",
                     Content = "message 2 for lab01 identity"
                 };
@@ -45,8 +47,8 @@ namespace MyCommunitySite.Models.DataLayer
 
                 Message message3 = new Message
                 {
-                    SenderId = 3,
-                    RecipientId = 1,
+                    Sender = marionCrane,
+                    Recipient = naru,
                     Subject = "identity test 3",
                     Content = "message 3 for lab01 identity"
                 };
