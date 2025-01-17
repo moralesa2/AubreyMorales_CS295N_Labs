@@ -11,8 +11,8 @@ using MyCommunitySite.Models;
 namespace MyCommunitySite.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250110230931_InitialAddIdentityTables")]
-    partial class InitialAddIdentityTables
+    [Migration("20250117233611_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -251,17 +251,11 @@ namespace MyCommunitySite.Migrations
                     b.Property<int>("Priority")
                         .HasColumnType("int");
 
-                    b.Property<int>("RecipientId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("RecipientId1")
+                    b.Property<string>("RecipientId")
                         .IsRequired()
                         .HasColumnType("varchar(255)");
 
-                    b.Property<int>("SenderId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("SenderId1")
+                    b.Property<string>("SenderId")
                         .IsRequired()
                         .HasColumnType("varchar(255)");
 
@@ -273,9 +267,9 @@ namespace MyCommunitySite.Migrations
 
                     b.HasKey("MessageId");
 
-                    b.HasIndex("RecipientId1");
+                    b.HasIndex("RecipientId");
 
-                    b.HasIndex("SenderId1");
+                    b.HasIndex("SenderId");
 
                     b.ToTable("Messages");
                 });
@@ -345,13 +339,13 @@ namespace MyCommunitySite.Migrations
                 {
                     b.HasOne("MyCommunitySite.Models.AppUser", "Recipient")
                         .WithMany()
-                        .HasForeignKey("RecipientId1")
+                        .HasForeignKey("RecipientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("MyCommunitySite.Models.AppUser", "Sender")
                         .WithMany()
-                        .HasForeignKey("SenderId1")
+                        .HasForeignKey("SenderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

@@ -30,7 +30,9 @@ namespace MyCommunitySite.Models.DataLayer
                 Message message1 = new Message
                 {
                     Sender = naru,
+                    SenderId = naru.Id,
                     Recipient = lilaCrane,
+                    RecipientId = lilaCrane.Id,
                     Subject = "identity test 1",
                     Content = "message 1 for lab01 identity"
                 };
@@ -39,7 +41,9 @@ namespace MyCommunitySite.Models.DataLayer
                 Message message2 = new Message
                 {
                     Sender = lilaCrane,
+                    SenderId = lilaCrane.Id,
                     Recipient = marionCrane,
+                    RecipientId = marionCrane.Id,
                     Subject = "identity test 2",
                     Content = "message 2 for lab01 identity"
                 };
@@ -48,7 +52,9 @@ namespace MyCommunitySite.Models.DataLayer
                 Message message3 = new Message
                 {
                     Sender = marionCrane,
+                    SenderId = marionCrane.Id,
                     Recipient = naru,
+                    RecipientId = marionCrane.Id,
                     Subject = "identity test 3",
                     Content = "message 3 for lab01 identity"
                 };
