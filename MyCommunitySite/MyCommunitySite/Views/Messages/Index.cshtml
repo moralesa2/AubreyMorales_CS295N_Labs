@@ -35,8 +35,8 @@ Filter Messages:
             @foreach (var message in Model)
             {
                 <tr>
-                    <td>@message.Sender.Name</td>
-                    <td>@message.Recipient.Name</td>
+                    <td>@message.Sender.UserName</td>
+                    <td>@message.Recipient.UserName</td>
                     <td>@message.Subject</td>
                     <td>
                         <textarea>@message.Content</textarea>
