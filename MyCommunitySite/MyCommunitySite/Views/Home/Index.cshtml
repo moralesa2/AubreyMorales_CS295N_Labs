@@ -6,7 +6,6 @@
 <div class="jumbotron">
     <p class="lead">Website for Eugene area hiking enthusiasts.</p>
     <div class="d-inline-grid">
-        @* <a class="me-2" asp-controller="Home" asp-action="Add">Add User</a> *@
         <a class="me-2" asp-controller="Messages" asp-action="Index">Messages</a>
         <a class="me-2" asp-controller="Home" asp-action="History">History</a>
         <a asp-controller="Home" asp-action="Quiz">Take the hiking quiz!</a>
@@ -17,7 +16,6 @@
         <tr>
             <th>User</th>
             <th>Signup Date</th>
-            @* <th>Actions</th> *@
         </tr>
     </thead>
     <tbody>
@@ -26,16 +24,6 @@
             <tr>
                 <td>@user.UserName</td>
                 <td>@user.SignupDate.ToString("yyyy-MM-dd")</td>
-                @* <td>
-                    <a asp-controller="Home"
-                       asp-action="Edit"
-                       asp-route-id="@user.Id">
-                        Edit</a>
-                    <a asp-controller="Home"
-                       asp-action="Delete"
-                       asp-route-id="@user.Id">
-                       Delete</a>
-                </td> *@
             </tr>
         }
     </tbody>

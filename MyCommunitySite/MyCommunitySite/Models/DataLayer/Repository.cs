@@ -36,6 +36,7 @@ namespace MyCommunitySite.Models
             return query.ToList();
         }
 
+        // TODO: Add get for string Ids
         public virtual T? Get(int id) => dbSet.Find(id);
 
         public virtual T? Get(QueryOptions<T> options)
@@ -52,6 +53,7 @@ namespace MyCommunitySite.Models
 
         public virtual void Insert(T entity) => dbSet.Add(entity);
         public virtual void Update(T entity) => dbSet.Update(entity);
+        // TODO: Add Delete for string Ids
         public void Delete(int id) => dbSet.Remove(Get(id));
         public virtual void Delete(T entity) => dbSet.Remove(entity);
         public virtual void Save() => context.SaveChanges();

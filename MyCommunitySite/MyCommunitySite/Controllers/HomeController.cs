@@ -33,6 +33,7 @@ namespace MyCommunitySite.Controllers
             return View("Edit", new AppUser());
         }
 
+        // TODO: Change for string Ids
         [HttpGet]
         public IActionResult Edit(int id)
         {
@@ -60,6 +61,7 @@ namespace MyCommunitySite.Controllers
             }
         }
 
+        // TODO: Change for string Ids
         [HttpGet]
         public IActionResult Delete(int id)
         {
