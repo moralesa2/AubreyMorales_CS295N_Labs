@@ -12,7 +12,6 @@ builder.Configuration.AddUserSecrets(Assembly.GetExecutingAssembly(), true);
 // build connection string
 var conStrBuilder = new MySqlConnectionStringBuilder(
     builder.Configuration.GetConnectionString("MySqlConnection"));
-conStrBuilder.Password = builder.Configuration["DbPassword"];
 var connection = conStrBuilder.ConnectionString;
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
