@@ -14,6 +14,10 @@ var conStrBuilder = new MySqlConnectionStringBuilder(
     builder.Configuration.GetConnectionString("MySqlConnection"));
 conStrBuilder.Password = builder.Configuration["DbPassword"];
 var connection = conStrBuilder.ConnectionString;
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+{
+    options.UseMySql(connection, ServerVersion.AutoDetect(connection));
+});
 
 // Add other services to the container.
 builder.Services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
@@ -21,10 +25,6 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddIdentity<AppUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-{
-    options.UseMySql(connection, ServerVersion.AutoDetect(connection));
-});
 
 var app = builder.Build();
 
@@ -48,6 +48,7 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
+// temporary scope for retrieving userManager and seeding data
 using (var scope = app.Services.CreateScope())
 {
     //await SeedUsers.CreateUsers(scope.ServiceProvider);

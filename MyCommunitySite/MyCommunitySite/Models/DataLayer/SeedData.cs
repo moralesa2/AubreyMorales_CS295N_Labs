@@ -9,10 +9,15 @@ namespace MyCommunitySite.Models.DataLayer
         {
             if (!context.Messages.Any())
             {
+                // add items that use identity to database
+                #region Identity items
+                // get userManager
                 var userManager = provider.GetRequiredService<UserManager<AppUser>>();
                 const string SECRET_PASSWORD = "?Password1";
 
+                // create user
                 AppUser naru = new AppUser { UserName = "Naru" };
+                // put user w/new password in database
                 var result1 = userManager.CreateAsync(naru, SECRET_PASSWORD);
               
                 AppUser lilaCrane = new AppUser { UserName = "Lila Crane" };
@@ -20,7 +25,10 @@ namespace MyCommunitySite.Models.DataLayer
 
                 AppUser marionCrane = new AppUser { UserName = "Marion Crane" };
                 var result3 = userManager.CreateAsync(marionCrane, SECRET_PASSWORD);
+                #endregion
 
+                // add items that do not use identity to database
+                #region non-Identity items
                 Hike hike1 = new Hike {Location = "Mount Doom", Date = "11/17/2003"};
                 Hike hike2 = new Hike { Location = "The Shire", Date = "11/19/2001" };
 
@@ -59,6 +67,7 @@ namespace MyCommunitySite.Models.DataLayer
                     Content = "message 3 for lab01 identity"
                 };
                 context.Messages.Add(message3);
+                #endregion
 
                 context.SaveChanges();
             }
