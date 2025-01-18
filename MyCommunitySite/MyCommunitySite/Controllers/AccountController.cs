@@ -41,6 +41,13 @@ namespace MyCommunitySite.Controllers
             return View(model);
         }
 
+        [HttpGet]
+        public IActionResult LogIn(string returnURL = "")
+        {
+            var model = new LoginVM { ReturnUrl = returnURL };
+            return View(model);
+        }
+
         [HttpPost]
         public async Task<IActionResult> LogOut()
         {
