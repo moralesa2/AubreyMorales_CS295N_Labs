@@ -36,7 +36,6 @@ namespace MyCommunitySite.Models
             return query.ToList();
         }
 
-        // TODO: Add get for string Ids
         public virtual T? Get(int id) => dbSet.Find(id);
 
         public virtual T? Get(QueryOptions<T> options)

@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/MyCommunitySite.styles.css" asp-append-version="true" />
 </head>
+@using Microsoft.AspNetCore.Identity
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3">
@@ -26,13 +27,14 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="About" asp-action="Index">About</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">Register</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="History">History</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Messages" asp-action="Index">Messages</a>
                         </li>
                     </ul>
-                    @using Microsoft.AspNetCore.Identity
-                    @inject SignInManager<AppUser> signInManager
                     <ul class="navbar-nav flex-grow-1 justify-content-end">
-                        @if (signInManager.IsSignedIn(User)){
+                        @if (User.Identity.IsAuthenticated){
                             // signed-in user - log out & username
                             <li class="nav-item">
                                 <form method="post" asp-action="LogOut" asp-controller="Account">

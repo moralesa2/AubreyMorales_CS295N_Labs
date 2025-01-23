@@ -1,27 +1,30 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MyCommunitySite.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MyCommunitySite.Controllers
 {
     public class MessagesController : Controller
     {
         readonly IRepository<Message> messageRepo;
-        readonly IRepository<AppUser> userRepo;
+        readonly UserManager<AppUser> userManager;
 
         private readonly QueryOptions<Message> mOptions = new QueryOptions<Message>();
-        private readonly QueryOptions<AppUser> uOptions = new QueryOptions<AppUser>();
 
-        public MessagesController(IRepository<Message> mRepo, IRepository<AppUser> uRepo)
+        public MessagesController(IRepository<Message> mRepo, UserManager<AppUser> uManager)
         {
             this.messageRepo = mRepo;
-            this.userRepo = uRepo;
+            this.userManager = uManager;
         }
 
         public IActionResult Index()
         {
             mOptions.Includes = "Sender, Recipient";
             mOptions.OrderBy = message => message.TimeSent;
+            ViewBag.AppUsers = userManager.Users.ToList();
+
             var messages = messageRepo.List(mOptions);
 
             return View(messages);
@@ -31,23 +34,18 @@ namespace MyCommunitySite.Controllers
         public IActionResult Add()
         {
             mOptions.Includes = "Sender, Recipient";
-            uOptions.OrderBy = appUser => appUser.UserName;
-            var appUsers = userRepo.List(uOptions);
-
             ViewBag.Action = "Add";
-            ViewBag.AppUsers = appUsers;
+            ViewBag.AppUsers = userManager.Users.ToList();
             return View("Edit", new Message());
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult Edit(int id)
         {
             mOptions.Includes = "Sender, Recipient";
-            uOptions.OrderBy = appUser => appUser.UserName;
-            var appUsers = userRepo.List(uOptions);
-
             ViewBag.Action = "Edit";
-            ViewBag.AppUsers = appUsers;
+            ViewBag.AppUsers = userManager.Users.ToList();
             var message = messageRepo.Get(id);
             return View(message);
         }
@@ -55,10 +53,16 @@ namespace MyCommunitySite.Controllers
         [HttpPost]
         public IActionResult Edit(Message message)
         {
+            // set sender to current user
+            message.Sender = userManager.GetUserAsync(User).Result;
+            message.SenderId = message.Sender.Id;
+
             if (ModelState.IsValid)
             {
                 if (message.MessageId == 0)
+                {
                     messageRepo.Insert(message);
+                }
                 else
                     messageRepo.Update(message);
                 messageRepo.Save();
@@ -67,16 +71,13 @@ namespace MyCommunitySite.Controllers
             else
             {
                 mOptions.Includes = "Sender, Recipient";
-                uOptions.OrderBy = appUser => appUser.UserName;
-                var appUsers = userRepo.List(uOptions);
-
                 ViewBag.Action = (message.MessageId == 0 ? "Add" : "Edit");
-                ViewBag.AppUsers = appUsers;
-
+                ViewBag.AppUsers = userManager.Users.ToList();
                 return View(message);
             }
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult Delete(int id)
         {

@@ -1,5 +1,5 @@
-﻿@model Message 
-
+﻿@model Message
+@using Microsoft.AspNetCore.Identity
 @{
     string title = ViewBag.Action + " Message";
     ViewData["Title"] = title;
@@ -9,31 +9,20 @@
 <div class="container">
     <form asp-action="Edit" method="post">
         <div asp-validation-summary="All" class="text-danger"></div>
+        <input type="hidden" asp-for="SenderId" value="User.Id"/>
         <div class="row">
-            <label asp-for="Sender.Id" class="col-sm-1 form-label">Sender</label>
+            <label asp-for="RecipientId" class="col-sm-1 form-label">Recipient</label>
             <div class="col-sm-3">
-                <select asp-for="Sender.Id" class="form-select" required>
-                @foreach (AppUser a in ViewBag.AppUsers)
+                <select asp-for="RecipientId" class="form-select" required>
+                @foreach (AppUser user in ViewBag.AppUsers)
                 {
-                    <option value="@a.Id">@a.UserName</option>
+                    <option value="@user.Id">@user.UserName</option>
                 }
                 </select>
                 <br />
             </div>
         </div>
 
-        <div class="row">
-            <label asp-for="Recipient.Id" class="col-sm-1 form-label">Recipient</label>
-            <div class="col-sm-3">
-                <select asp-for="Recipient.Id" class="form-select" required>
-                @foreach (AppUser a in ViewBag.AppUsers)
-                {
-                    <option value="@a.Id">@a.UserName</option>
-                }
-                </select>
-                <br />
-            </div>
-        </div>
 
         <div class="row">
             <label asp-for="Subject" class="col-sm-1 form-label">Subject</label>
