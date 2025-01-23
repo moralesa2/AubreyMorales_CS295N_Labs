@@ -49,6 +49,31 @@ namespace MyCommunitySite.Controllers
         }
 
         [HttpPost]
+        public async Task<IActionResult> LogIn(LoginVM model)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await signInManager.PasswordSignInAsync(
+                    model.Username, model.Password, isPersistent: model.RememberMe, lockoutOnFailure: false);
+
+                if (result.Succeeded)
+                {
+                    if (!string.IsNullOrEmpty(model.ReturnUrl) &&
+                            Url.IsLocalUrl(model.ReturnUrl))
+                    {
+                        return RedirectToAction(model.ReturnUrl);
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
+                }
+            }
+            ModelState.AddModelError("", "Invalid username/password.");
+            return View(model);
+        }
+
+        [HttpPost]
         public async Task<IActionResult> LogOut()
         {
             await signInManager.SignOutAsync();

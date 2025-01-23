@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using MyCommunitySite.Models;
 using MyCommunitySite.Models.Quizz;
 
@@ -6,77 +7,18 @@ namespace MyCommunitySite.Controllers
 {
     public class HomeController : Controller
     {
-        readonly IRepository<AppUser> userRepo;
+        private UserManager<AppUser> userManager;
 
-        private readonly QueryOptions<AppUser> uOptions = new QueryOptions<AppUser>();
-
-        public HomeController(IRepository<AppUser> uRepo)
+        public HomeController(UserManager<AppUser> uManager)
         {
-            this.userRepo = uRepo;
+            this.userManager = uManager;
         }
 
         public IActionResult Index()
         {
-            uOptions.OrderBy = appUser => appUser.UserName;
-            var users = userRepo.List(uOptions);
-            return View(users);
+            var appUsers = userManager.Users.ToList();
+            return View(appUsers);
         }
-
-        #region AppUser methods
-        [HttpGet]
-        public IActionResult Add()
-        {
-            uOptions.OrderBy = appUser => appUser.UserName;
-            var appUsers = userRepo.List(uOptions);
-
-            ViewBag.Action = "Add";
-            return View("Edit", new AppUser());
-        }
-
-        // TODO: Change for string Ids
-        [HttpGet]
-        public IActionResult Edit(int id)
-        {
-            ViewBag.Action = "Edit";
-            var user = userRepo.Get(id);
-            return View(user);
-        }
-
-        [HttpPost]
-        public IActionResult Edit(AppUser user)
-        {
-            if (ModelState.IsValid)
-            {
-                if (user.Id == null)
-                    userRepo.Insert(user);
-                else
-                    userRepo.Update(user);
-                userRepo.Save();
-                return RedirectToAction("Index", "Home");
-            }
-            else
-            {
-                ViewBag.Action = user.Id == null ? "Add" : "Edit";
-                return View(user);
-            }
-        }
-
-        // TODO: Change for string Ids
-        [HttpGet]
-        public IActionResult Delete(int id)
-        {
-            var user = userRepo.Get(id);
-            return View(user);
-        }
-
-        [HttpPost]
-        public IActionResult Delete(AppUser user)
-        {
-            userRepo.Delete(user);
-            userRepo.Save();
-            return RedirectToAction("Index", "Home");
-        }
-        #endregion
 
         public IActionResult History()
         {

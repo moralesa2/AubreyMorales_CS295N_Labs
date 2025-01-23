@@ -8,13 +8,14 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/MyCommunitySite.styles.css" asp-append-version="true" />
 </head>
+@using Microsoft.AspNetCore.Identity
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Eugene Hikers</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
+                aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
@@ -26,11 +27,35 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="About" asp-action="Index">About</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">Register</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="History">History</a>
                         </li>
-                        <li class="nav-item flex-end">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="LogIn">Log In</a>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Messages" asp-action="Index">Messages</a>
                         </li>
+                    </ul>
+                    <ul class="navbar-nav flex-grow-1 justify-content-end">
+                        @if (User.Identity.IsAuthenticated){
+                            // signed-in user - log out & username
+                            <li class="nav-item">
+                                <form method="post" asp-action="LogOut" asp-controller="Account">
+                                    <input type="submit" value="Log Out" class="btn btn-outline-dark" />
+                                    <span class="text-dark">@User.Identity?.Name</span>
+                                </form>
+                            </li>
+                        }
+                        else {
+                            // Get current action
+                            var action = ViewContext.RouteData.Values["action"]?.ToString();
+                            // anonymous user - register & login
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Account" asp-action="Register">
+                                    <span class="fas fa-edit"></span>&nbsp;Register</a>
+                            </li>
+                            <li class="nav-item">
+                                <a asp-action="LogIn" asp-controller="Account" class="btn btn-outline-dark">
+                                    Log In</a>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>
