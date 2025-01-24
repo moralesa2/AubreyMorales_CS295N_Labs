@@ -79,5 +79,11 @@ namespace MyCommunitySite.Controllers
             await signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
         }
+
+        [HttpGet]
+        public ViewResult AccessDenied()
+        {
+            return View();
+        }
     }
 }

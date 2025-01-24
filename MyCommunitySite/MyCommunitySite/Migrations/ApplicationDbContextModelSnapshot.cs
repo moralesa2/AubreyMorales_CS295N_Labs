@@ -233,7 +233,7 @@ namespace MyCommunitySite.Migrations
 
                     b.HasKey("HikeId");
 
-                    b.ToTable("Hikes");
+                    b.ToTable("Hikes", (string)null);
                 });
 
             modelBuilder.Entity("MyCommunitySite.Models.Message", b =>
@@ -269,7 +269,7 @@ namespace MyCommunitySite.Migrations
 
                     b.HasIndex("SenderId");
 
-                    b.ToTable("Messages");
+                    b.ToTable("Messages", (string)null);
                 });
 
             modelBuilder.Entity("MyCommunitySite.Models.AppUser", b =>

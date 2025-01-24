@@ -34,7 +34,8 @@
                         </li>
                     </ul>
                     <ul class="navbar-nav flex-grow-1 justify-content-end">
-                        @if (User.Identity.IsAuthenticated){
+                        @if (User.Identity.IsAuthenticated)
+                        {
                             // signed-in user - log out & username
                             <li class="nav-item">
                                 <form method="post" asp-action="LogOut" asp-controller="Account">
@@ -42,6 +43,15 @@
                                     <span class="text-dark">@User.Identity?.Name</span>
                                 </form>
                             </li>
+                            // admins can access appuser page to make changes
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-controller="AppUser" asp-action="Index">
+                                        <span class="fas fa-cog"></span>&nbsp;Admin
+                                    </a>
+                                </li>
+                            }
                         }
                         else {
                             // Get current action
