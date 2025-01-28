@@ -29,7 +29,8 @@ namespace MyCommunitySite.Controllers
 
             return View(messages);
         }
-
+        
+        [Authorize]
         [HttpGet]
         public IActionResult Add()
         {

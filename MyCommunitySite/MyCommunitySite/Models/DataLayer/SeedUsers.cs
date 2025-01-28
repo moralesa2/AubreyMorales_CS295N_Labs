@@ -4,45 +4,29 @@ namespace MyCommunitySite.Models.DataLayer
 {
     public class SeedUsers
     {
-        private static RoleManager<IdentityRole> roleManager;
-        private static UserManager<AppUser> userManager;
-
-        public static async Task CreateUsers(IServiceProvider provider)
+        public static async Task CreateAdminUserAsync(IServiceProvider provider)
         {
-            roleManager = provider.GetRequiredService<RoleManager<IdentityRole>>();
-            userManager = provider.GetRequiredService<UserManager<AppUser>>();
+            var roleManager = provider.GetRequiredService<RoleManager<IdentityRole>>();
+            var userManager = provider.GetRequiredService<UserManager<AppUser>>();
 
-            const string MEMBER = "Member";
-            const string ADMIN = "Admin";
-            await CreateRole(MEMBER);
-            await CreateRole(ADMIN);
+            string username = "admin";
+            string password = "!Secret123";
+            string roleName = "Admin";
 
-            const string SECRET_PASSWORD = "?Password1";
-            await CreateUser("admin", SECRET_PASSWORD, ADMIN);
-
-            await CreateUser("Naru", SECRET_PASSWORD, MEMBER);
-            await CreateUser("Lila Crane", SECRET_PASSWORD, MEMBER);
-            await CreateUser("Marion Crane", SECRET_PASSWORD, MEMBER);
-            await CreateUser("Aubrey M", SECRET_PASSWORD, ADMIN);
-        }
-
-        private static async Task CreateRole(string role)
-        {
-            if (await roleManager.FindByNameAsync(role) == null)
+            if (await roleManager.FindByNameAsync(roleName) == null)
             {
-                await roleManager.CreateAsync(new IdentityRole(role));
+                await roleManager.CreateAsync(new IdentityRole(roleName));
             }
-        }
 
-        private static async Task CreateUser(string userName, string password, string role)
-        {
-            var user = new AppUser
+            if (await userManager.FindByNameAsync(username) == null)
             {
-                UserName = userName,
-            };
-
-            var result = await userManager.CreateAsync(user, password);
-            if (result.Succeeded) await userManager.AddToRoleAsync(user, role);
+                AppUser user = new AppUser { UserName = username };
+                var result = await userManager.CreateAsync(user, password);
+                if (result.Succeeded)
+                {
+                    await userManager.AddToRoleAsync(user, roleName);
+                }
+            }
         }
     }
 }
