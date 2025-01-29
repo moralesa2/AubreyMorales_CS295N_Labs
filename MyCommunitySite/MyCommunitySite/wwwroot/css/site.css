@@ -28,3 +28,24 @@ label {
 button {
     border-radius: 0.3em;
 }
+
+table {
+    background-color: white;
+    max-width: 75%;
+    border: 2px solid black;
+    opacity: 0.8;
+    text-align: center;
+    overflow: auto;
+}
+thead {
+    background-color: lightgray;
+}
+
+tr:nth-child(even) {
+    background-color: lightgray
+}
+
+td {
+    border: 1px solid black
+}
+/*table table-bordered table-striped table-light opacity-75 table-sm*/

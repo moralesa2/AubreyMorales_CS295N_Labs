@@ -7,12 +7,12 @@ namespace MyCommunitySite.Models.DataLayer
     {
         public static void Seed(ApplicationDbContext context, IServiceProvider provider)
         {
-            if (!context.Messages.Any())
+            var userManager = provider.GetRequiredService<UserManager<AppUser>>();
+            if (userManager.Users.Count() <= 1)
             {
                 // add items that use identity to database
                 #region Identity items
                 // get userManager
-                var userManager = provider.GetRequiredService<UserManager<AppUser>>();
                 const string SECRET_PASSWORD = "?Password1";
 
                 // create user
@@ -20,10 +20,10 @@ namespace MyCommunitySite.Models.DataLayer
                 // put user w/new password in database
                 var result1 = userManager.CreateAsync(naru, SECRET_PASSWORD);
               
-                AppUser lilaCrane = new AppUser { UserName = "Lila Crane" };
+                AppUser lilaCrane = new AppUser { UserName = "LilaCrane" };
                 var result2 = userManager.CreateAsync(lilaCrane, SECRET_PASSWORD);
 
-                AppUser marionCrane = new AppUser { UserName = "Marion Crane" };
+                AppUser marionCrane = new AppUser { UserName = "MarionCrane" };
                 var result3 = userManager.CreateAsync(marionCrane, SECRET_PASSWORD);
                 #endregion
 

@@ -61,7 +61,7 @@ namespace MyCommunitySite.Controllers
                     if (!string.IsNullOrEmpty(model.ReturnUrl) &&
                             Url.IsLocalUrl(model.ReturnUrl))
                     {
-                        return RedirectToAction(model.ReturnUrl);
+                        return Redirect(model.ReturnUrl);
                     }
                     else
                     {
