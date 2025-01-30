@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/MyCommunitySite.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.1.1/css/all.css" integrity="sha-long-hash_code" crossorigin="anonymous">
 </head>
 @using Microsoft.AspNetCore.Identity
 <body>
@@ -36,6 +37,14 @@
                     <ul class="navbar-nav flex-grow-1 justify-content-end">
                         @if (User.Identity.IsAuthenticated)
                         {
+                            // admins can access appuser page to make changes
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-controller="AppUser" asp-action="Index">
+                                        <span class="fas fa-cog"></span>&nbsp;Admin</a>
+                                </li>
+                            }
                             // signed-in user - log out & username
                             <li class="nav-item">
                                 <form method="post" asp-action="LogOut" asp-controller="Account">
@@ -43,15 +52,6 @@
                                     <span class="text-dark">@User.Identity?.Name</span>
                                 </form>
                             </li>
-                            // admins can access appuser page to make changes
-                            @if (User.IsInRole("Admin"))
-                            {
-                                <li class="nav-item">
-                                    <a class="nav-link" asp-controller="AppUser" asp-action="Index">
-                                        <span class="fas fa-cog"></span>&nbsp;Admin
-                                    </a>
-                                </li>
-                            }
                         }
                         else {
                             // Get current action
@@ -79,7 +79,7 @@
 
     <footer class="footer text-white">
         <div class="container">
-            &copy; 2024 - Eugene Hikers - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2024 - Eugene Hikers
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

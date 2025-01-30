@@ -2,27 +2,10 @@
 @{
     ViewData["Title"] = "MyCommunityWebsite";
 }
-
+<h1 class="text-center">Eugene Hikers</h1>
 <div class="jumbotron">
     <p class="lead">Website for Eugene area hiking enthusiasts.</p>
     <div class="d-inline-grid">
         <a asp-controller="Home" asp-action="Quiz">Take the hiking quiz!</a>
     </div>
 </div>
-<table class="table table-bordered table-striped mt-5 table-sm" style="width:75%">
-    <thead>
-        <tr>
-            <th>User</th>
-            <th>Signup Date</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var user in Model)
-        {
-            <tr>
-                <td>@user.UserName</td>
-                <td>@user.SignupDate.ToString("yyyy-MM-dd")</td>
-            </tr>
-        }
-    </tbody>
-</table>

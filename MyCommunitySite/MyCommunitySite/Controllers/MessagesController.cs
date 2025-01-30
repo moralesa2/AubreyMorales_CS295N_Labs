@@ -23,7 +23,7 @@ namespace MyCommunitySite.Controllers
         {
             mOptions.Includes = "Sender, Recipient";
             mOptions.OrderBy = message => message.TimeSent;
-            ViewBag.AppUsers = userManager.Users.ToList();
+            ViewBag.AppUsers = userManager?.Users.ToList();
 
             var messages = messageRepo.List(mOptions);
 
@@ -36,7 +36,7 @@ namespace MyCommunitySite.Controllers
         {
             mOptions.Includes = "Sender, Recipient";
             ViewBag.Action = "Add";
-            ViewBag.AppUsers = userManager.Users.ToList();
+            ViewBag.AppUsers = userManager?.Users.ToList();
             return View("Edit", new Message());
         }
 
@@ -46,7 +46,7 @@ namespace MyCommunitySite.Controllers
         {
             mOptions.Includes = "Sender, Recipient";
             ViewBag.Action = "Edit";
-            ViewBag.AppUsers = userManager.Users.ToList();
+            ViewBag.AppUsers = userManager?.Users.ToList();
             var message = messageRepo.Get(id);
             return View(message);
         }
@@ -55,8 +55,8 @@ namespace MyCommunitySite.Controllers
         public IActionResult Edit(Message message)
         {
             // set sender to current user
-            message.Sender = userManager.GetUserAsync(User).Result;
-            message.SenderId = message.Sender.Id;
+            message.Sender = userManager?.GetUserAsync(User).Result;
+            message.SenderId = message.Sender?.Id;
 
             if (ModelState.IsValid)
             {
@@ -73,7 +73,7 @@ namespace MyCommunitySite.Controllers
             {
                 mOptions.Includes = "Sender, Recipient";
                 ViewBag.Action = (message.MessageId == 0 ? "Add" : "Edit");
-                ViewBag.AppUsers = userManager.Users.ToList();
+                ViewBag.AppUsers = userManager?.Users.ToList();
                 return View(message);
             }
         }

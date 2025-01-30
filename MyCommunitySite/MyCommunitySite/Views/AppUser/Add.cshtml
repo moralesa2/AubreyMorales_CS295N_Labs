@@ -1,1 +1,38 @@
-﻿
+﻿@model RegisterVM
+@{
+
+    ViewData["Title"] = " | Add User";
+}
+
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<div class="container">
+    <h1>Add User</h1>
+    <form asp-action="Add" method="post">
+        <div class="col-sm-3">
+            <label class="col-sm-1 form-label">Username</label>
+            <input type="text" asp-for="Username" class="form-control" />
+        </div>
+        <div class="col">
+            <span asp-validation-for="Username" class="text-danger"></span>
+        </div>
+        <div class="col-sm-3">
+            <label class="col-sm-1 form-label">Password</label>
+            <input type="password" asp-for="Password" class="form-control" />
+        </div>
+        <div class="col">
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+        <div class="col-sm-3">
+            <label class="form-label">Confirm Password</label>
+            <input type="password" asp-for="ConfirmPassword" class="form-control" />
+        </div>
+        <div class="col">
+            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+        </div>
+        <div class="row mt-2">
+            <div class="col-sm-4">
+                <button type="submit" class="btn btn-primary">Add</button>
+            </div>
+        </div>
+    </form>
+</div>

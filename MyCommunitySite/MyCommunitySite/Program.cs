@@ -3,16 +3,12 @@ using Microsoft.EntityFrameworkCore;
 using MyCommunitySite.Models;
 using MyCommunitySite.Models.DataLayer;
 using MySqlConnector;
-using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
-builder.Configuration.AddUserSecrets(Assembly.GetExecutingAssembly(), true);
 
 // build connection string
-var conStrBuilder = new MySqlConnectionStringBuilder(
-    builder.Configuration.GetConnectionString("MySqlConnection"));
-var connection = conStrBuilder.ConnectionString;
+var connection = builder.Configuration.GetConnectionString("MySqlConnection");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     options.UseMySql(connection, ServerVersion.AutoDetect(connection));
@@ -20,7 +16,6 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 // Add other services to the container.
 builder.Services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
-builder.Services.AddHttpContextAccessor();
 builder.Services.AddIdentity<AppUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
@@ -40,12 +35,13 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseAuthorization();
-app.UseAuthentication();
-
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+// authenticate before authorization
+app.UseAuthentication();
+app.UseAuthorization();
 
 // temporary scope for retrieving userManager and seeding data
 using (var scope = app.Services.CreateScope())

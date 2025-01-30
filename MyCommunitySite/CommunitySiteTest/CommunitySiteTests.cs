@@ -2,33 +2,24 @@ using Microsoft.AspNetCore.Mvc;
 using MyCommunitySite.Models;
 using MyCommunitySite.Controllers;
 using CommunitySiteTest.FakeRepo;
+using Microsoft.AspNetCore.Identity;
 
 namespace CommunitySiteTest
 {
     public class CommunitySiteTests 
     {
-        IRepository<Message> _mRepo = new FakeMessageRepository();
-        IRepository<AppUser> _uRepo = new FakeAppUserRepository();
-
-        MessagesController _mController;
-        HomeController _hController;
-
-        Message _message = new Message();
-        AppUser _user = new AppUser();
+        IRepository<Message> mRepo = new FakeMessageRepository();
+        MessagesController controller;
 
         public CommunitySiteTests()
         {
-            _mController = new MessagesController(_mRepo, _uRepo);
-            _hController = new HomeController(_uRepo);
+            controller = new MessagesController(mRepo, null);
         }
 
         [Fact]
         public void Message_PostTest_Success()
         {
-            _message.Sender = new AppUser();
-            _message.Recipient = new AppUser();
-
-            var result = _mController.Edit(new Message());
+            var result = controller.Edit(new Message());
 
             Assert.IsType<RedirectToActionResult>(result);
         }
@@ -37,11 +28,9 @@ namespace CommunitySiteTest
         public void Message_PostTest_Failure()
         {
             // error must be forced for testing
-            _mController.ModelState.AddModelError("Error", "validation error");
-            _message.Sender = new AppUser();
-            _message.Recipient = new AppUser();
+            controller.ModelState.AddModelError("Error", "validation error");
 
-            var result = _mController.Edit(_message);
+            var result = controller.Edit(new Message());
 
             Assert.IsType<ViewResult>(result);
         }
