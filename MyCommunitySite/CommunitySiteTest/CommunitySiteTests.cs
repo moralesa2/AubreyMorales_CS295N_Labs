@@ -3,12 +3,13 @@ using MyCommunitySite.Models;
 using MyCommunitySite.Controllers;
 using CommunitySiteTest.FakeRepo;
 using Microsoft.AspNetCore.Identity;
+using System.Security.Cryptography.Pkcs;
 
 namespace CommunitySiteTest
 {
     public class CommunitySiteTests 
     {
-        IRepository<Message> mRepo = new FakeMessageRepository();
+        FakeMessageRepository mRepo = new FakeMessageRepository();
         MessagesController controller;
 
         public CommunitySiteTests()
@@ -19,7 +20,7 @@ namespace CommunitySiteTest
         [Fact]
         public void Message_PostTest_Success()
         {
-            var result = controller.Edit(new Message());
+            var result = controller.Message(new Message());
 
             Assert.IsType<RedirectToActionResult>(result);
         }
@@ -30,7 +31,7 @@ namespace CommunitySiteTest
             // error must be forced for testing
             controller.ModelState.AddModelError("Error", "validation error");
 
-            var result = controller.Edit(new Message());
+            var result = controller.Message(new Message());
 
             Assert.IsType<ViewResult>(result);
         }

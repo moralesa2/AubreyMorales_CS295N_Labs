@@ -2,41 +2,30 @@
 
 namespace CommunitySiteTest.FakeRepo
 {
-    public class FakeMessageRepository : IRepository<Message>
+    public class FakeMessageRepository : IMessageRepository
     {
 
         private List<Message> messages = new List<Message>();
 
+        public IQueryable<Message> Messages
+        {
+            get
+            {
+                return messages.AsQueryable<Message>();
+            }
+        }
         public Message? Get(int id)
         {
             Message message = messages.Find(m => m.MessageId == id);
             return message;
         }
 
-        public int StoreMessage(Message model)
+#pragma warning disable CS1998
+        public async Task AddMessageAsync(Message message)
+#pragma warning restore CS1998
         {
-            int status = 0;
-            if (model != null && model.Sender != null && model.Recipient != null)
-            {
-                model.MessageId = messages.Count + 1;
-                messages.Add(model);
-                status = 1;
-            }
-            return status;
+            message.MessageId = messages.Count();
+            messages.Add(message);
         }
-
-        public void Insert(Message entity) => messages.Add(entity);
-
-        public IEnumerable<Message> List(QueryOptions<Message> options) => messages;
-
-        public Message? Get(QueryOptions<Message> options)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Delete(Message entity) { }
-        public void Update(Message entity) { }
-        public void Delete(int id) { }
-        public void Save() { }
     }
 }
