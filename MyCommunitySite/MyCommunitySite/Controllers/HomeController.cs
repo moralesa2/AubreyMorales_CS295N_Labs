@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using MyCommunitySite.Models;
 using MyCommunitySite.Models.Quizz;
 
@@ -14,9 +15,9 @@ namespace MyCommunitySite.Controllers
             this.userManager = uManager;
         }
 
-        public IActionResult Index()
+        public async Task <IActionResult> Index()
         {
-            var appUsers = userManager.Users.ToList();
+            var appUsers = await userManager.Users.ToListAsync();
             return View(appUsers);
         }
 

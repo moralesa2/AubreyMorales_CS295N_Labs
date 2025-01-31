@@ -20,9 +20,7 @@ namespace CommunitySiteTest.FakeRepo
             return message;
         }
 
-#pragma warning disable CS1998
         public async Task AddMessageAsync(Message message)
-#pragma warning restore CS1998
         {
             message.MessageId = messages.Count();
             messages.Add(message);

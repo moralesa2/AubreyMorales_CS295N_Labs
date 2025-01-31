@@ -25,10 +25,10 @@ namespace MyCommunitySite.Controllers
         }
 
         [Authorize]
-        public IActionResult Message()
+        public async Task <IActionResult> Message()
         {
             // pass in AppUsers for selecting Recipient
-            ViewBag.AppUsers = userManager?.Users.ToList();
+            ViewBag.AppUsers = await userManager?.Users.ToListAsync();
             return View();
         }
 
@@ -37,11 +37,10 @@ namespace MyCommunitySite.Controllers
         public async Task<IActionResult> Message(Message message)
         {
             // set sender & recipient
-            message.Sender = userManager?.GetUserAsync(User).Result;
-            message.Recipient = await userManager.FindByIdAsync(message.RecipientId);
-
             if (ModelState.IsValid)
             {
+                message.Sender = userManager?.GetUserAsync(User).Result;
+                message.Recipient = userManager?.FindByIdAsync(message.RecipientId).Result;
                 await messageRepo.AddMessageAsync(message);
             }
             return RedirectToAction("Index", message);
@@ -59,13 +58,14 @@ namespace MyCommunitySite.Controllers
                          where m.Sender.UserName == sender
                          select m).ToList());
             }
+            // TODO: fix filter, dates aren't converting
             if (!string.IsNullOrEmpty(date))
             {
-                var searchDate = DateTime.Parse(date).ToShortDateString();
+                var searchDate = DateTime.Parse(date);
                 await Task.Run(() =>
                     messages =
                         (from m in messageRepo.Messages
-                         where m.TimeSent.ToShortDateString() == searchDate
+                         where m.TimeSent.Date == searchDate
                          select m).ToList());
             }
             return View("Index", messages);
