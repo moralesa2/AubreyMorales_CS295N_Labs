@@ -43,6 +43,7 @@ namespace MyCommunitySite.Controllers
                 message.Recipient = userManager?.FindByIdAsync(message.RecipientId).Result;
                 await messageRepo.AddMessageAsync(message);
             }
+            ModelState.AddModelError("Error", "validation error");
             return RedirectToAction("Index", message);
         }
 
@@ -58,7 +59,6 @@ namespace MyCommunitySite.Controllers
                          where m.Sender.UserName == sender
                          select m).ToList());
             }
-            // TODO: fix filter, dates aren't converting
             if (!string.IsNullOrEmpty(date))
             {
                 var searchDate = DateTime.Parse(date);
