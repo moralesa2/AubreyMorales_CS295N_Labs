@@ -8,100 +8,66 @@ namespace MyCommunitySite.Controllers
 {
     public class MessagesController : Controller
     {
-        readonly IRepository<Message> messageRepo;
+        readonly IMessageRepository messageRepo;
         readonly UserManager<AppUser> userManager;
 
-        private readonly QueryOptions<Message> mOptions = new QueryOptions<Message>();
-
-        public MessagesController(IRepository<Message> mRepo, UserManager<AppUser> uManager)
+        public MessagesController(IMessageRepository mRepo, UserManager<AppUser> uManager)
         {
             this.messageRepo = mRepo;
             this.userManager = uManager;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            mOptions.Includes = "Sender, Recipient";
-            mOptions.OrderBy = message => message.TimeSent;
-            ViewBag.AppUsers = userManager?.Users.ToList();
-
-            var messages = messageRepo.List(mOptions);
-
+            // get message list
+            List<Message> messages = await messageRepo.Messages.ToListAsync<Message>();
             return View(messages);
         }
-        
-        [Authorize]
-        [HttpGet]
-        public IActionResult Add()
-        {
-            mOptions.Includes = "Sender, Recipient";
-            ViewBag.Action = "Add";
-            ViewBag.AppUsers = userManager?.Users.ToList();
-            return View("Edit", new Message());
-        }
 
-        [Authorize(Roles = "Admin")]
-        [HttpGet]
-        public IActionResult Edit(int id)
+        [Authorize]
+        public async Task <IActionResult> Message()
         {
-            mOptions.Includes = "Sender, Recipient";
-            ViewBag.Action = "Edit";
-            ViewBag.AppUsers = userManager?.Users.ToList();
-            var message = messageRepo.Get(id);
-            return View(message);
+            // pass in AppUsers for selecting Recipient
+            ViewBag.AppUsers = await userManager?.Users.ToListAsync();
+            return View();
         }
 
         [HttpPost]
-        public IActionResult Edit(Message message)
+        [Authorize]
+        public async Task<IActionResult> Message(Message message)
         {
-            // set sender to current user
-            message.Sender = userManager?.GetUserAsync(User).Result;
-            message.SenderId = message.Sender?.Id;
-
+            // set sender & recipient
             if (ModelState.IsValid)
             {
-                if (message.MessageId == 0)
-                {
-                    messageRepo.Insert(message);
-                }
-                else
-                    messageRepo.Update(message);
-                messageRepo.Save();
-                return RedirectToAction("Index", "Messages");
+                message.Sender = userManager?.GetUserAsync(User).Result;
+                message.Recipient = userManager?.FindByIdAsync(message.RecipientId).Result;
+                await messageRepo.AddMessageAsync(message);
             }
-            else
+            return RedirectToAction("Index", message);
+        }
+
+        public async Task<IActionResult> Filter(string sender, string date)
+        {
+            List<Message> messages = null;
+
+            if (!string.IsNullOrEmpty(sender))
             {
-                mOptions.Includes = "Sender, Recipient";
-                ViewBag.Action = (message.MessageId == 0 ? "Add" : "Edit");
-                ViewBag.AppUsers = userManager?.Users.ToList();
-                return View(message);
+                await Task.Run(() =>
+                    messages =
+                        (from m in messageRepo.Messages
+                         where m.Sender.UserName == sender
+                         select m).ToList());
             }
-        }
-
-        [Authorize(Roles = "Admin")]
-        [HttpGet]
-        public IActionResult Delete(int id)
-        {
-            var message = messageRepo.Get(id);
-            return View(message);
-        }
-
-        [HttpPost]
-        public IActionResult Delete(Message message)
-        {
-            messageRepo.Delete(message);
-            messageRepo.Save();
-            return RedirectToAction("Index", "Messages");
-        }
-
-        public IActionResult Filter(string sender, string date)
-        {
-            mOptions.Includes = "Sender, Recipient";
-            var messages = messageRepo.List(mOptions)
-                .Where(m => sender == null || m.Sender.UserName == sender)
-                .Where(m => date == null || m.TimeSent.ToString("MM/dd/yyyy") == date)
-                .ToList();
-
+            // TODO: fix filter, dates aren't converting
+            if (!string.IsNullOrEmpty(date))
+            {
+                var searchDate = DateTime.Parse(date);
+                await Task.Run(() =>
+                    messages =
+                        (from m in messageRepo.Messages
+                         where m.TimeSent.Date == searchDate
+                         select m).ToList());
+            }
             return View("Index", messages);
         }
     }

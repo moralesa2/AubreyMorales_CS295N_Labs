@@ -4,13 +4,13 @@
 }
 <div class="text-center">
     <h1>@ViewData["Title"]</h1>
-    <a asp-controller="Messages" asp-action="Add">Write a Message</a>
+    <a asp-controller="Messages" asp-action="Message">Write a Message</a>
 </div>
 Filter Messages:
 <div class="d-flex align-items-center mb-2 mt-2">
     <form method="post" action="/Messages/Filter" class="d-flex">
         <input class="me-1" name="sender" placeholder="Sender"/>
-        <input class="me-1" name="date" placeholder="MM/DD/YYYY"/>
+        <input class="me-1" type="date" name="date" placeholder="Select"/>
         <button class="btn-primary me-1" type="submit">Submit</button>
     </form>
     <form method="post" action="/Messages" class="d-flex">
@@ -26,11 +26,10 @@ Filter Messages:
             <th>Content</th>
             <th>Time Sent</th>
             <td>Priority</td>
-            <th></th>
         </tr>
     </thead>
     <tbody>
-        @if (Model.Count != 0)
+        @if (Model != null)
         {
             @foreach (var message in Model)
             {
@@ -43,10 +42,6 @@ Filter Messages:
                     </td>
                     <td>@message.TimeSent</td>
                     <td>@message.Priority</td>
-                    <td>
-                        <a asp-controller="Messages" asp-action="Edit" asp-route-id="@message.MessageId">Edit</a>
-                        <a asp-controller="Messages" asp-action="Delete" asp-route-id="@message.MessageId">Delete</a>
-                    </td>
                 </tr>
             }
         }

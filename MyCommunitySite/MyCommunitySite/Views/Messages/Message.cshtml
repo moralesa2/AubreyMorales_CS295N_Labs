@@ -1,13 +1,12 @@
 ﻿@model Message
 @using Microsoft.AspNetCore.Identity
 @{
-    string title = ViewBag.Action + " Message";
-    ViewData["Title"] = title;
+    ViewData["Title"] = "Message";
 }
-<h2>@ViewData["Title"]</h2>
+<h2>Add Message</h2>
 
 <div class="container">
-    <form asp-action="Edit" method="post">
+    <form method="post">
         <div asp-validation-summary="All" class="text-danger"></div>
         <input type="hidden" asp-for="SenderId" value="User.Id"/>
         <div class="row">
@@ -22,7 +21,6 @@
                 <br />
             </div>
         </div>
-
 
         <div class="row">
             <label asp-for="Subject" class="col-sm-1 form-label">Subject</label>
@@ -45,8 +43,6 @@
                 <input asp-for="Priority" name="Priority" class="form-control" min="1" max="5"/><br />
             </div>
         </div>
-
-        <input type="hidden" asp-for="MessageId" />
 
         <button type="submit" class="btn btn-primary">Save</button>
         <a asp-controller="Messages" asp-action="Index" class="btn btn-primary">Cancel</a>
