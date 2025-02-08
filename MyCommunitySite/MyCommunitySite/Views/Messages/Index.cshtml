@@ -2,52 +2,46 @@
 @{
     ViewData["Title"] = "Messages";
 }
-<div class="text-center">
+<div class="d-flex justify-content-between align-items-center">
     <h1>@ViewData["Title"]</h1>
-    <a asp-controller="Messages" asp-action="Message">Write a Message</a>
+    <h5>
+        <a asp-controller="Messages" asp-action="Message">Write a Message</a>
+    </h5>
 </div>
-Filter Messages:
-<div class="d-flex align-items-center mb-2 mt-2">
-    <form method="post" action="/Messages/Filter" class="d-flex">
-        <input class="me-1" name="sender" placeholder="Sender"/>
-        <input class="me-1" type="date" name="date" placeholder="Select"/>
-        <button class="btn-primary me-1" type="submit">Submit</button>
-    </form>
-    <form method="post" action="/Messages" class="d-flex">
-        <button class="btn-primary" type="submit">Clear Filters</button>       
-    </form>
+<div class="d-flex flex-column">
+    <span>Filter Messages</span>
+    <div class="card mb-2 p-0" style="background-color: rgba(0,0,0,0)">
+        <form method="post" action="/Messages/Filter" class="d-flex flex-column">
+            <input class="flex-" name="sender" placeholder="Sender" style="text-align: center"/>
+            <input type="date" name="date" placeholder="Select" style="text-align: center"/>
+            <div class="d-flex justify-content-between mt-1">
+                <button class="btn-primary w-50" type="submit">Search</button>
+                <button class="btn-primary ms-1 w-50" type="submit" formaction="/Messages">Reset</button>
+            </div>
+        </form>
+    </div>
+    @if (Model != null)
+    {
+        @foreach (var message in Model)
+        {
+            <div class="card mb-2">
+                <div class="d-flex flex-column">
+                    <span>
+                        To: @message.Sender.UserName&nbsp;&nbsp;&nbsp;&nbsp;
+                        From: @message.Recipient.UserName
+                    </span>
+                    <spam>@message.Subject</spam>
+                    <span><textarea disabled>@message.Content</textarea></span>
+                    <span>
+                        @message.TimeSent&nbsp;|
+                        Priority: @message.Priority
+                    </span>
+                </div>
+            </div> 
+        }
+    }
+    else
+    {
+        <p>There are no messages.</p>
+    }
 </div>
-<table class="table">
-    <thead>
-        <tr>
-            <th>Sender</th>
-            <th>Recipient</th>
-            <th>Subject</th>
-            <th>Content</th>
-            <th>Time Sent</th>
-            <td>Priority</td>
-        </tr>
-    </thead>
-    <tbody>
-        @if (Model != null)
-        {
-            @foreach (var message in Model)
-            {
-                <tr>
-                    <td>@message.Sender.UserName</td>
-                    <td>@message.Recipient.UserName</td>
-                    <td>@message.Subject</td>
-                    <td>
-                        <textarea>@message.Content</textarea>
-                    </td>
-                    <td>@message.TimeSent</td>
-                    <td>@message.Priority</td>
-                </tr>
-            }
-        }
-        else
-        {
-            <p>There are no messages.</p>
-        }
-    </tbody>
-</table>

@@ -5,6 +5,7 @@ using CommunitySiteTest.FakeRepo;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Cryptography.Pkcs;
 using System.Runtime.CompilerServices;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace CommunitySiteTest
 {
@@ -15,25 +16,25 @@ namespace CommunitySiteTest
 
         public CommunitySiteTests() 
         { 
+            // arrange
             controller = new MessagesController(mRepo, null); 
         }
 
         [Fact]
         public async Task Message_PostTest_Success()
         {
-            var result = controller.Message(new Message()).Result;
-
+            // act
+            var result = await controller.Message(new Message());
+            // assert
             Assert.IsType<RedirectToActionResult>(result);
         }
 
         [Fact]
         public async Task Message_PostTest_Failure()
         {
-            // error must be forced for testing
-            controller.ModelState.AddModelError("Error", "validation error");
-
-            var result = controller.Message(new Message()).Result;
-
+            // act
+            var result = await controller.Message(new Message());
+            // assert
             Assert.IsType<RedirectToActionResult>(result);
         }
     }

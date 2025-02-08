@@ -16,6 +16,7 @@ html {
 body {
     margin-bottom: 60px;
     background-image: url("/Images/SpencerButte_3-22-20.jpg");
+    background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
 }
@@ -29,23 +30,21 @@ button {
     border-radius: 0.3em;
 }
 
-table {
-    background-color: white;
-    max-width: 75%;
-    border: 2px solid black;
-    opacity: 0.8;
-    text-align: center;
-    overflow: auto;
-}
-thead {
-    background-color: lightgray;
+.card {
+    min-width: 90%;
+    background-color: rgba(255, 255, 255, 0.7);
+    padding: 5px;
+    border: none;
 }
 
-tr:nth-child(even) {
-    background-color: lightgray
+textarea {
+    resize: none;
+    width: 100%;
+    height: 10vh;
+    overflow: scroll;
 }
-
-td {
-    border: 1px solid black
-}
+    textarea:disabled {
+        color: rgba(0,0,0,0.75);
+        font-style: italic;
+    }
 /*table table-bordered table-striped table-light opacity-75 table-sm*/
