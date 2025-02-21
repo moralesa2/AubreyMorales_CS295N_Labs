@@ -1,4 +1,5 @@
-﻿@model List<Message>
+﻿@using MyCommunitySite.Models.DomainModels
+@model List<Message>
 @{
     ViewData["Title"] = "Messages";
 }
@@ -37,7 +38,24 @@
                         Priority: @message.Priority
                     </span>
                 </div>
+                <a asp-action="DeleteMessage" asp-controller="Messages" asp-route-messageid="@message.MessageId">Delete</a>
+                <a asp-action="Reply" asp-controller="Messages" asp-route-messageid="@message.MessageId">Reply</a>
             </div> 
+
+            if (message.Replies?.Count != 0){
+                <h5 class="m-3">Repl@(message.Replies.Count > 1 ? "ies" : "y")</h5>
+                foreach (Reply reply in message.Replies){
+                    <div>
+                        <span>@reply.ReplyText</span>
+                        <span>@reply.Sender.UserName</span><br/>
+                        <span>Date: @reply.TimeSent</span><br/>
+                    </div>
+                }
+            }
+            else
+            {
+                <p>0 replies</p>
+            }
         }
     }
     else

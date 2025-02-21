@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MyCommunitySite.Models;
 using Microsoft.AspNetCore.Authorization;
+using MyCommunitySite.Models.DomainModels;
+using MyCommunitySite.Models.ViewModels;
 
 namespace MyCommunitySite.Controllers
 {
@@ -20,7 +22,7 @@ namespace MyCommunitySite.Controllers
         public async Task<IActionResult> Index()
         {
             // get message list
-            List<Message> messages = await messageRepo.Messages.ToListAsync<Message>();
+            List<Message> messages = await messageRepo.Messages.Include(m => m.Replies).ToListAsync<Message>();
             return View(messages);
         }
 
@@ -69,6 +71,41 @@ namespace MyCommunitySite.Controllers
                          select m).ToList());
             }
             return View("Index", messages);
+        }
+
+        public IActionResult DeleteMessage(int messageId)
+        {
+            messageRepo.DeleteMessage(messageId);
+            var messages = messageRepo.Messages.ToList();
+            return View("Index", messages);
+        }
+
+        [Authorize]
+        public IActionResult Reply(int messageId)
+        {
+            var replyVM = new ReplyVM { MessageId = messageId };
+            return View(replyVM);
+        }
+
+        [HttpPost]
+        public async Task<RedirectToActionResult> Reply(ReplyVM replyVM)
+        {
+            // get message that the reply is for
+            var message = (from m in messageRepo.Messages.Include(m => m.Replies)
+                           where m.MessageId == replyVM.MessageId
+                           select m).First<Message>();
+
+            // Reply is the domain model
+            var reply = new Reply { ReplyText = replyVM.ReplyText };
+            reply.Sender = userManager?.GetUserAsync(User).Result;
+            reply.Recipient = message.Sender;
+
+            // store reply message w/reply in db
+            message.Replies.Add(reply);
+            await messageRepo.UpdateMessageAsync(message);
+
+            var messages = messageRepo.Messages.ToList();
+            return RedirectToAction("Index", messages);
         }
     }
 }

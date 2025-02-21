@@ -36,11 +36,17 @@ namespace MyCommunitySite.Models
             }
         }
 
-        public async Task<int> DeleteMessageAsync(Message message)
+        public async Task UpdateMessageAsync(Message message)
         {
-            var deleteMessage = await context.Messages.FindAsync(message.MessageId);
+            context.Messages.Update(message);
+            await context.SaveChangesAsync();
+        }
+
+        public int DeleteMessage(int messageId)
+        {
+            var deleteMessage = context.Messages.Find(messageId);
             context.Messages.Remove(deleteMessage);
-            return await context.SaveChangesAsync();
+            return context.SaveChanges();
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using MyCommunitySite.Models.DomainModels;
 using System.ComponentModel.DataAnnotations;
 
 namespace MyCommunitySite.Models
@@ -25,5 +26,7 @@ namespace MyCommunitySite.Models
         public string? Content { get; set; }
 
         public DateTime TimeSent { get; set; } = DateTime.Now.ToLocalTime();
+
+        public ICollection<Reply>? Replies { get; set; }
     }
 }
