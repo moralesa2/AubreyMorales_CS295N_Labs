@@ -217,6 +217,41 @@ namespace MyCommunitySite.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("MyCommunitySite.Models.DomainModels.Reply", b =>
+                {
+                    b.Property<int>("ReplyId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("MessageId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("RecipientId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("ReplyText")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("SenderId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<DateTime>("TimeSent")
+                        .HasColumnType("datetime(6)");
+
+                    b.HasKey("ReplyId");
+
+                    b.HasIndex("MessageId");
+
+                    b.HasIndex("RecipientId");
+
+                    b.HasIndex("SenderId");
+
+                    b.ToTable("Reply");
+                });
+
             modelBuilder.Entity("MyCommunitySite.Models.Hike", b =>
                 {
                     b.Property<int>("HikeId")
@@ -333,6 +368,31 @@ namespace MyCommunitySite.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("MyCommunitySite.Models.DomainModels.Reply", b =>
+                {
+                    b.HasOne("MyCommunitySite.Models.Message", null)
+                        .WithMany("Replies")
+                        .HasForeignKey("MessageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MyCommunitySite.Models.AppUser", "Recipient")
+                        .WithMany()
+                        .HasForeignKey("RecipientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MyCommunitySite.Models.AppUser", "Sender")
+                        .WithMany()
+                        .HasForeignKey("SenderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Recipient");
+
+                    b.Navigation("Sender");
+                });
+
             modelBuilder.Entity("MyCommunitySite.Models.Message", b =>
                 {
                     b.HasOne("MyCommunitySite.Models.AppUser", "Recipient")
@@ -350,6 +410,11 @@ namespace MyCommunitySite.Migrations
                     b.Navigation("Recipient");
 
                     b.Navigation("Sender");
+                });
+
+            modelBuilder.Entity("MyCommunitySite.Models.Message", b =>
+                {
+                    b.Navigation("Replies");
                 });
 #pragma warning restore 612, 618
         }
