@@ -27,6 +27,6 @@ namespace MyCommunitySite.Models
 
         public DateTime TimeSent { get; set; } = DateTime.Now.ToLocalTime();
 
-        public ICollection<Reply>? Replies { get; set; }
+        public ICollection<Reply> Replies { get; set; } = new List<Reply>();
     }
 }

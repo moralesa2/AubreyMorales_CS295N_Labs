@@ -42,6 +42,17 @@ namespace MyCommunitySite.Models
             await context.SaveChangesAsync();
         }
 
+        public async Task<List<Message>> GetMessagesAsync()
+        {
+            List<Message> Messages = await context.Messages
+                .Include(m => m.Sender)
+                .Include(m => m.Recipient)
+                .Include(m => m.Replies)
+                .ThenInclude(reply => reply.Sender)
+                .ToListAsync();
+            return Messages;
+        }
+
         public int DeleteMessage(int messageId)
         {
             var deleteMessage = context.Messages.Find(messageId);

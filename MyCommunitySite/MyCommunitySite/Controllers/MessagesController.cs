@@ -22,7 +22,7 @@ namespace MyCommunitySite.Controllers
         public async Task<IActionResult> Index()
         {
             // get message list
-            List<Message> messages = await messageRepo.Messages.Include(m => m.Replies).ToListAsync<Message>();
+            List<Message> messages = await messageRepo.GetMessagesAsync();
             return View(messages);
         }
 
@@ -73,6 +73,7 @@ namespace MyCommunitySite.Controllers
             return View("Index", messages);
         }
 
+        [Authorize]
         public IActionResult DeleteMessage(int messageId)
         {
             messageRepo.DeleteMessage(messageId);
