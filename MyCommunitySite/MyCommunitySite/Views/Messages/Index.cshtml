@@ -1,4 +1,5 @@
-﻿@model List<Message>
+﻿@using MyCommunitySite.Models.DomainModels
+@model List<Message>
 @{
     ViewData["Title"] = "Messages";
 }
@@ -27,17 +28,41 @@
             <div class="card mb-2">
                 <div class="d-flex flex-column">
                     <span>
-                        To: @message.Sender.UserName&nbsp;&nbsp;&nbsp;&nbsp;
-                        From: @message.Recipient.UserName
+                        To: <strong>@message.Recipient.UserName&nbsp;&nbsp;&nbsp;&nbsp;</strong>
+                        From: <strong>@message.Sender.UserName</strong>
                     </span>
                     <spam>@message.Subject</spam>
                     <span><textarea disabled>@message.Content</textarea></span>
+                </div>
+                <div class="d-flex flex-row justify-content-between mb-3">
                     <span>
                         @message.TimeSent&nbsp;|
                         Priority: @message.Priority
                     </span>
+                    <span>
+                        <a asp-action="Reply" asp-controller="Messages" asp-route-messageid="@message.MessageId" class="me-2">Reply</a>
+                        <a asp-action="DeleteMessage" asp-controller="Messages" asp-route-messageid="@message.MessageId" class="me-2">Delete</a>
+                    </span>
                 </div>
-            </div> 
+                <div class="d-flex justify-content-between me-5">
+                    <div class="d-flex flex-column" style="width: 100%">
+                        <span>Replies: @message.Replies.Count</span>
+                        @if (message.Replies?.Count != 0)
+                        {
+                            foreach (Reply reply in message.Replies)
+                            {
+                                <div class="d-flex flex-column ms-5">
+                                    <span>Reply from: <strong>@reply.Sender.UserName</strong></span>
+                                    <textarea disabled>@reply.ReplyText</textarea>
+                                    <div class="d-flex flex-row justify-content-between mb-3">
+                                        <span>Date: @reply.TimeSent</span>
+                                    </div>
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
         }
     }
     else
