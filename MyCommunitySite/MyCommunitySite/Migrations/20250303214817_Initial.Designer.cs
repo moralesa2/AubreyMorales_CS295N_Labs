@@ -11,7 +11,7 @@ using MyCommunitySite.Models;
 namespace MyCommunitySite.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250220235554_Initial")]
+    [Migration("20250303214817_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -295,7 +295,9 @@ namespace MyCommunitySite.Migrations
                         .HasColumnType("varchar(255)");
 
                     b.Property<string>("Subject")
-                        .HasColumnType("longtext");
+                        .IsRequired()
+                        .HasMaxLength(60)
+                        .HasColumnType("varchar(60)");
 
                     b.Property<DateTime>("TimeSent")
                         .HasColumnType("datetime(6)");

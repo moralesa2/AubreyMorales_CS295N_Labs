@@ -46,9 +46,9 @@ app.UseAuthorization();
 // temporary scope for retrieving userManager and seeding data
 using (var scope = app.Services.CreateScope())
 {
-    await SeedUsers.CreateAdminUserAsync(scope.ServiceProvider);
     var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    SeedData.Seed(dbContext, scope.ServiceProvider);
+    await SeedUsers.CreateAdminUserAsync(scope.ServiceProvider);    
+    await SeedData.Seed(dbContext, scope.ServiceProvider);
 }
 
 app.Run();

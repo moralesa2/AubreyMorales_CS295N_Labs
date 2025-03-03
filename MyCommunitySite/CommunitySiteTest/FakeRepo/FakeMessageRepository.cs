@@ -25,5 +25,20 @@ namespace CommunitySiteTest.FakeRepo
             message.MessageId = messages.Count();
             messages.Add(message);
         }
+
+        public Task UpdateMessageAsync(Message message)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<Message>> GetMessagesAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public int DeleteMessage(int messageId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

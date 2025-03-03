@@ -17,6 +17,8 @@ namespace MyCommunitySite.Models
         [ValidateNever]
         public AppUser Recipient { get; set; } = null!;
 
+        [Required(ErrorMessage = "Subject cannot be blank.")]
+        [StringLength(60, ErrorMessage = "Subject cannot exceed 60 characters. ")]
         public string? Subject { get; set; }
 
         [Range(1, 5, ErrorMessage = "Priority must be from 1 to 5.")]

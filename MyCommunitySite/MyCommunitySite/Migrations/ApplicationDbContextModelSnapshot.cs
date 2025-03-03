@@ -293,7 +293,9 @@ namespace MyCommunitySite.Migrations
                         .HasColumnType("varchar(255)");
 
                     b.Property<string>("Subject")
-                        .HasColumnType("longtext");
+                        .IsRequired()
+                        .HasMaxLength(60)
+                        .HasColumnType("varchar(60)");
 
                     b.Property<DateTime>("TimeSent")
                         .HasColumnType("datetime(6)");
