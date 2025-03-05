@@ -11,7 +11,7 @@ namespace MyCommunitySite.Models.DomainModels
         [ValidateNever]
         public AppUser Recipient { get; set; } = null!;
 
-        [Required(ErrorMessage = "You can't send a blank message.")]
+        [Required(ErrorMessage = "You can't send a blank reply.")]
         public string? ReplyText { get; set; }
 
         public DateTime TimeSent { get; set; } = DateTime.Now.ToLocalTime();

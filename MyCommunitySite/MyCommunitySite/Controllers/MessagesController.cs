@@ -43,10 +43,12 @@ namespace MyCommunitySite.Controllers
             {
                 message.Sender = userManager?.GetUserAsync(User).Result;
                 message.Recipient = userManager?.FindByIdAsync(message.RecipientId).Result;
+
                 await messageRepo.AddMessageAsync(message);
+                return RedirectToAction("Index");
             }
-            ModelState.AddModelError("Error", "validation error");
-            return RedirectToAction("Index", message);
+
+            return View(message);
         }
 
         public async Task<IActionResult> Filter(string sender, string date)
@@ -77,6 +79,7 @@ namespace MyCommunitySite.Controllers
         public IActionResult DeleteMessage(int messageId)
         {
             messageRepo.DeleteMessage(messageId);
+
             var messages = messageRepo.Messages.ToList();
             return View("Index", messages);
         }
@@ -89,7 +92,7 @@ namespace MyCommunitySite.Controllers
         }
 
         [HttpPost]
-        public async Task<RedirectToActionResult> Reply(ReplyVM replyVM)
+        public async Task<IActionResult> Reply(ReplyVM replyVM)
         {
             // get message that the reply is for
             var message = (from m in messageRepo.Messages.Include(m => m.Replies)
@@ -106,10 +109,11 @@ namespace MyCommunitySite.Controllers
                 // store reply message w/reply in db
                 message.Replies.Add(reply);
                 await messageRepo.UpdateMessageAsync(message);
+
+                return RedirectToAction("Index");
             }
 
-            var messages = messageRepo.Messages.ToList();
-            return RedirectToAction("Index", messages);
+            return View(replyVM);
         }
     }
 }

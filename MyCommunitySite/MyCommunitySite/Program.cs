@@ -47,8 +47,7 @@ app.UseAuthorization();
 using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    await SeedUsers.CreateAdminUserAsync(scope.ServiceProvider);    
     await SeedData.Seed(dbContext, scope.ServiceProvider);
+    await SeedUsers.CreateAdminUserAsync(scope.ServiceProvider);
 }
-
 app.Run();

@@ -7,7 +7,7 @@
 
 <div class="container">
     <form method="post">
-        <div asp-validation-summary="All" class="text-danger"></div>
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <input type="hidden" asp-for="SenderId" value="User.Id"/>
         <div class="row">
             <label asp-for="RecipientId" class="col-sm-1 form-label">Recipient</label>
@@ -27,6 +27,7 @@
             <div class="col-sm-3">
                 <input asp-for="Subject" name="Subject" class="form-control" /><br />
             </div>
+            <span asp-validation-for="Subject" class="text-danger"></span>
         </div>
 
         <div class="row">
@@ -34,14 +35,16 @@
             <div class="col-sm-4">
                 <textarea asp-for="Content" name="Content" class="form-control" rows="3" required></textarea>
             </div><br />
+            <span asp-validation-for="Content" class="text-danger"></span>
         </div>
 
         @* padding *@
         <div class="row pt-4">
             <label asp-for="Priority" class="col-sm-1 form-label">Priority</label>
             <div class="col-sm-2">
-                <input asp-for="Priority" name="Priority" class="form-control" min="1" max="5"/><br />
+                <input asp-for="Priority" name="Priority" class="form-control" default="5" min="1" max="5" required/><br />
             </div>
+            <span asp-validation-for="Priority" class="text-danger"></span>
         </div>
 
         <button type="submit" class="btn btn-primary">Save</button>
