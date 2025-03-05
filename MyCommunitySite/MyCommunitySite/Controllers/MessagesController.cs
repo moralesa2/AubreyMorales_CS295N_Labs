@@ -101,9 +101,12 @@ namespace MyCommunitySite.Controllers
             reply.Sender = userManager?.GetUserAsync(User).Result;
             reply.Recipient = message.Sender;
 
-            // store reply message w/reply in db
-            message.Replies.Add(reply);
-            await messageRepo.UpdateMessageAsync(message);
+            if (ModelState.IsValid)
+            {
+                // store reply message w/reply in db
+                message.Replies.Add(reply);
+                await messageRepo.UpdateMessageAsync(message);
+            }
 
             var messages = messageRepo.Messages.ToList();
             return RedirectToAction("Index", messages);

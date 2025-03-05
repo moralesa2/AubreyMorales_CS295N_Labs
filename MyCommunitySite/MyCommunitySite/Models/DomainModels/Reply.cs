@@ -6,7 +6,9 @@ namespace MyCommunitySite.Models.DomainModels
     public class Reply
     {
         public int ReplyId { get; set; }
+        [ValidateNever]
         public AppUser Sender { get; set; } = null!;
+        [ValidateNever]
         public AppUser Recipient { get; set; } = null!;
 
         [Required(ErrorMessage = "You can't send a blank message.")]

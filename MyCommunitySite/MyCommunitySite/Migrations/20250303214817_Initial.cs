@@ -224,7 +224,7 @@ namespace MyCommunitySite.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     RecipientId = table.Column<string>(type: "varchar(255)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Subject = table.Column<string>(type: "longtext", nullable: true)
+                    Subject = table.Column<string>(type: "varchar(60)", maxLength: 60, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Priority = table.Column<int>(type: "int", nullable: false),
                     Content = table.Column<string>(type: "longtext", nullable: false)

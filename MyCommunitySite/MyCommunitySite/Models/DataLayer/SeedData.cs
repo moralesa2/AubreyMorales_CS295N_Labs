@@ -1,14 +1,15 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using MyCommunitySite.Models;
+using System.Threading.Tasks;
 
 namespace MyCommunitySite.Models.DataLayer
 {
     public class SeedData
     {
-        public static void Seed(ApplicationDbContext context, IServiceProvider provider)
+        public static async Task Seed(ApplicationDbContext context, IServiceProvider provider)
         {
             var userManager = provider.GetRequiredService<UserManager<AppUser>>();
-            if (userManager.Users.Count() <= 1)
+            if (!context.Messages.Any())
             {
                 // add items that use identity to database
                 #region Identity items
@@ -41,6 +42,7 @@ namespace MyCommunitySite.Models.DataLayer
                     SenderId = naru.Id,
                     Recipient = lilaCrane,
                     RecipientId = lilaCrane.Id,
+                    Priority = 1,
                     Subject = "identity test 1",
                     Content = "message 1 for lab01 identity"
                 };
@@ -52,6 +54,7 @@ namespace MyCommunitySite.Models.DataLayer
                     SenderId = lilaCrane.Id,
                     Recipient = marionCrane,
                     RecipientId = marionCrane.Id,
+                    Priority = 1,
                     Subject = "identity test 2",
                     Content = "message 2 for lab01 identity"
                 };
@@ -63,6 +66,7 @@ namespace MyCommunitySite.Models.DataLayer
                     SenderId = marionCrane.Id,
                     Recipient = naru,
                     RecipientId = marionCrane.Id,
+                    Priority = 1,
                     Subject = "identity test 3",
                     Content = "message 3 for lab01 identity"
                 };
