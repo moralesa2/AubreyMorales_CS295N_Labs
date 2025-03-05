@@ -5,6 +5,8 @@ using MyCommunitySite.Models;
 using Microsoft.AspNetCore.Authorization;
 using MyCommunitySite.Models.DomainModels;
 using MyCommunitySite.Models.ViewModels;
+using Microsoft.AspNetCore.Mvc.DataAnnotations;
+using NuGet.Versioning;
 
 namespace MyCommunitySite.Controllers
 {
@@ -81,7 +83,16 @@ namespace MyCommunitySite.Controllers
             messageRepo.DeleteMessage(messageId);
 
             var messages = messageRepo.Messages.ToList();
-            return View("Index", messages);
+            return RedirectToAction("Index", messages);
+        }
+
+        [Authorize]
+        public IActionResult DeleteReply(int messageId, int replyId)
+        {
+            messageRepo.DeleteReply(messageId, replyId);
+
+            var messages = messageRepo.Messages.ToList();
+            return RedirectToAction("Index", messages);
         }
 
         [Authorize]

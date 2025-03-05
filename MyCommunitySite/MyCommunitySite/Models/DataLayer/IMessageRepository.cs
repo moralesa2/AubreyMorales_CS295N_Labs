@@ -8,6 +8,8 @@ namespace MyCommunitySite.Models
         public Task AddMessageAsync(Message message);
         public Task UpdateMessageAsync(Message message);
         public Task<List<Message>> GetMessagesAsync();
+        public Task<Message> GetMessageByIdAsync(int messageId);
         public int DeleteMessage(int messageId);
+        public int DeleteReply(int messageId, int replyId);
     }
 }

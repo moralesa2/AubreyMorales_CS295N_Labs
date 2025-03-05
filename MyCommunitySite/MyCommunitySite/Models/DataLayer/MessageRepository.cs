@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MyCommunitySite.Models.DomainModels;
 using System.Net.NetworkInformation;
 
 namespace MyCommunitySite.Models
@@ -45,19 +46,37 @@ namespace MyCommunitySite.Models
 
         public async Task<List<Message>> GetMessagesAsync()
         {
-            List<Message> Messages = await context.Messages
+            List<Message> messages = await context.Messages
                 .Include(m => m.Sender)
                 .Include(m => m.Recipient)
                 .Include(m => m.Replies)
                 .ThenInclude(reply => reply.Sender)
                 .ToListAsync();
-            return Messages;
+            return messages;
+        }
+
+        public async Task<Message> GetMessageByIdAsync(int messageId)
+        {
+            return await context.Messages
+                .Include(message => message.Sender)
+                .Include(message => message.Replies)
+                .ThenInclude(message => message.Sender)
+                .Where(message => message.MessageId == messageId)
+                .SingleOrDefaultAsync();
         }
 
         public int DeleteMessage(int messageId)
         {
             var deleteMessage = context.Messages.Find(messageId);
             context.Messages.Remove(deleteMessage);
+            return context.SaveChanges();
+        }
+
+        public int DeleteReply(int messageId, int replyId)
+        {
+            Message message = GetMessageByIdAsync(messageId).Result;
+            Reply reply = message.Replies.Where(r => r.ReplyId == replyId).SingleOrDefault();
+            message.Replies.Remove(reply);
             return context.SaveChanges();
         }
     }
